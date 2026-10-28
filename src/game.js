@@ -5,7 +5,9 @@ import { createLady } from './lady.js';
 import { createPickups } from './pickups.js';
 import { CAT_MODELS } from './pack.js';
 import { MODEL as LADY } from './lady.js';
+import { FOES } from './foes.js';
 import { say } from './quips.js';
+import { TABLES } from './spawns.js';
 import { createRun, putBack, respawn, STEP, stepRun, toGround } from './run.js';
 import { createWorldMeshes } from './scenery.js';
 import { LAMP_LIGHTS } from './stage.js';
@@ -373,14 +375,17 @@ export function createGame({ stage, hud, input, audio, storage }) {
   return {
     update,
     start,
-    /** The people the city has in it, by the name of their model, nearest the ball first: the order to bake them in. */
+    /**
+     * Everybody who can turn up, by the name of their model, in the order to
+     * bake them in: the lady, the cats, whoever is placed, then the people of
+     * the district she is in, then the rest. (The people are made as she
+     * walks, so nobody is in the crowd to ask until they are baked.)
+     */
     cast() {
-      const b = run.ball, nearest = new Map();
-      for (const f of run.crowd.foes) {
-        const d = Math.hypot(f.ball.x - b.x, f.ball.z - b.z);
-        if (!(nearest.get(f.stats.model) <= d)) nearest.set(f.stats.model, d);
-      }
-      return [LADY, ...CAT_MODELS, ...[...nearest].sort((p, q) => p[1] - q[1]).map(([name]) => name)];
+      const b = run.ball, here = run.map.districtAt(b.x, b.z)?.name;
+      const models = (table) => Object.keys(table ?? {}).map((kind) => FOES[kind].model);
+      const order = [LADY, ...CAT_MODELS, ...run.crowd.foes.map((f) => f.stats.model), ...models(TABLES[here]), ...Object.values(TABLES).flatMap(models)];
+      return [...new Set(order)];
     },
     /**
      * One of everything that comes into view later than the first frame, to

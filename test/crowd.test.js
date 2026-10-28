@@ -111,7 +111,7 @@ function wait(run, seconds) {
 }
 
 test('the cats go for a pauser that comes near, claw it, and shoo it; the lady is not touched', () => {
-  const run = createRun(GFX, { map: yard(['pauser', 12.5, 10.5]) });
+  const run = createRun(GFX, { map: yard(['pauser', 9.5, 10.5]) });
   run.crowd.foes[0].range = 8;
   const outs = wait(run, 12);
   const shoos = outs.flatMap((o) => o.shoos);
@@ -221,7 +221,7 @@ test('the city has strays to find, each somewhere she can stand, and the pack ca
 
 test('the cats knock over small things when there is nothing else to do, and she can\'t smash anything by walking into it', () => {
   const m = yard();
-  m.place('bin', 9.5, 10.5).place('bench', 9.5, 14.5);
+  m.place('bin', 7.5, 10.5).place('bench', 7.5, 13.5);
   const run = createRun(GFX, { map: m, foes: false });
   assert.equal(run.breakables.length, 2);
   assert.ok(run.breakables.every((p) => p.boxes.length > 0 && !p.broken));
@@ -230,7 +230,7 @@ test('the cats knock over small things when there is nothing else to do, and she
   walker.pack.cats.length = 0;
   for (let t = 0; t < 3; t += STEP) stepRun(walker, [1, 0], STEP, { boost: true });
   assert.equal(walker.broke, 0);
-  assert.ok(walker.ball.x < 9.5, 'it stopped at the bin');
+  assert.ok(walker.ball.x < 7.5, 'it stopped at the bin');
   // Left to themselves, the cats get round to it.
   const outs = wait(run, 40);
   assert.ok(outs.flatMap((o) => o.breaks).length >= 1);

@@ -28,11 +28,14 @@ export const COATS = ['ginger', 'black', 'grey', 'calico', 'siamese', 'tom'];
 export const START = 6;
 export const MOST = 16;
 
-/** How far from the lady a foe can be and still be hunted, and how far a cat will chase it. */
-const HUNT = 10, CHASE = 15;
+/** How far from the lady a foe can be and still be hunted, and how far from the cat. */
+const HUNT = 7, CHASE = 9;
 
-/** How far behind the lady a cat can fall before it is put back beside her. */
-const LOST = 18;
+/** How far from the lady a cat will go after anything: past this it gives up and comes back to her. */
+const LEASH = 8;
+
+/** How far behind the lady a cat can fall before it is put back beside her (it runs to catch up long before that). */
+const LOST = 28;
 
 /** How often a cat looks for something to do, in seconds; and how often it gets up to mischief. */
 const LOOK = 0.15, MISCHIEF = [6, 14];
@@ -61,7 +64,7 @@ export function createPack(GFX, map, world, { killY, foes = [], props = [], star
     ball.grounded = true;
     const cat = {
       i, coat, kind, look, body, ball, claw: CLAW(kind),
-      heading: 0, target: null, prop: null, cooldown: i * 0.1, seeking: 0, struck: -9, still: 0, mischief: 3 + i * 2.1,
+      heading: 0, stuck: 0, target: null, prop: null, cooldown: i * 0.1, seeking: 0, struck: -9, still: 0, mischief: 3 + i * 2.1,
       clip: 'idle', since: 0,
       get built() { return model !== null; },
       build() {
@@ -105,7 +108,7 @@ export function createPack(GFX, map, world, { killY, foes = [], props = [], star
 
   /** Something small and breakable near the lady, to knock over. */
   function mischief(lady) {
-    let best = null, bd = 9;
+    let best = null, bd = 5;
     for (const p of props) {
       if (p.broken || p.at > 6.5) continue;
       const d = Math.hypot(p.x - lady.x, p.z - lady.z);
@@ -147,7 +150,7 @@ export function createPack(GFX, map, world, { killY, foes = [], props = [], star
         c.seeking -= dt;
         c.mischief -= dt;
         const toLady = Math.hypot(lady.x - b.x, lady.z - b.z);
-        if (toLady > LOST || b.y < killY || Math.abs(lady.y - b.y) > 6) { place(c, lady.x, lady.z); c.target = null; continue; }
+        if (toLady > LOST || b.y < killY || Math.abs(lady.y - b.y) > 10) { place(c, lady.x, lady.z); c.target = null; continue; }
 
         // What to do: every so often, look for somebody to go for (or something to knock over).
         if (c.seeking <= 0) {
@@ -158,6 +161,8 @@ export function createPack(GFX, map, world, { killY, foes = [], props = [], star
             c.mischief = MISCHIEF[0] + ((c.i * 3.7) % (MISCHIEF[1] - MISCHIEF[0]));
           }
         }
+        // Never far from her: past the leash it lets go of whatever it was after.
+        if (toLady > LEASH) { c.target = null; c.prop = null; }
         if (c.target && !live(c.target)) c.target = null;
         if (c.prop && c.prop.broken) c.prop = null;
 
@@ -180,12 +185,20 @@ export function createPack(GFX, map, world, { killY, foes = [], props = [], star
         } else {
           // Round the lady in a ring that drifts, and keeps up with her however fast she goes.
           const a = c.i * 2.399 + time * 0.25 * (c.i % 2 ? 1 : -1);
-          const r = 1.1 + 0.18 * (c.i % 4);
+          const r = 0.9 + 0.14 * (c.i % 4);
           const tx = lady.x + Math.cos(a) * r, tz = lady.z + Math.sin(a) * r;
           const dx = tx - b.x, dz = tz - b.z, d = Math.hypot(dx, dz);
-          if (d > 0.35) { ax = dx / d; az = dz / d; top = Math.max(c.kind.speed, speed * 1.1 + d * 1.5); }
+          if (d > 0.35) { ax = dx / d; az = dz / d; top = Math.max(c.kind.speed, speed * 1.2 + d * 3); }
         }
-        stepBall(b, world, ax, az, dt, { push: PUSH * (toLady > 4 ? 1.6 : 0.9), topSpeed: Math.min(top, 20), drag: 1.2 });
+        // Wanting to go and not getting anywhere (a wall, a post): edge round it, one way and then the other.
+        const wants = ax !== 0 || az !== 0;
+        c.stuck = wants && Math.hypot(b.vx, b.vz) < 0.8 ? c.stuck + dt : 0;
+        if (c.stuck > 0.3) {
+          const turn = (Math.floor(c.stuck / 0.7) % 2 ? -1 : 1) * (c.i % 2 ? 1 : -1) * 1.2;
+          const cs = Math.cos(turn), sn = Math.sin(turn);
+          [ax, az] = [ax * cs - az * sn, ax * sn + az * cs];
+        }
+        stepBall(b, world, ax, az, dt, { push: PUSH * (toLady > 4 ? 2.4 : 0.9), topSpeed: Math.min(top, 26), drag: 0.4 });
         const v = Math.hypot(b.vx, b.vz);
         if (aim && (attack || v < 0.5)) c.heading = Math.atan2(aim[0], aim[1]);
         else if (v > 0.3) c.heading = Math.atan2(b.vx, b.vz);
