@@ -37,6 +37,9 @@ const LEASH = 8;
 /** How far behind the lady a cat can fall before it is put back beside her (it runs to catch up long before that). */
 const LOST = 28;
 
+/** How close cats come to each other (and the lady) before they steer apart, and before they are pushed apart: a cat is longer than the ball it is. */
+const SPACE = 0.7, TOUCH = 0.45, HER = 0.6;
+
 /** How often a cat looks for something to do, in seconds; and how often it gets up to mischief. */
 const LOOK = 0.15, MISCHIEF = [6, 14];
 
@@ -190,6 +193,14 @@ export function createPack(GFX, map, world, { killY, foes = [], props = [], star
           const dx = tx - b.x, dz = tz - b.z, d = Math.hypot(dx, dz);
           if (d > 0.35) { ax = dx / d; az = dz / d; top = Math.max(c.kind.speed, speed * 1.2 + d * 3); }
         }
+        // Room for each other: steer away from any cat that is close, harder the closer.
+        for (const o of cats) {
+          if (o === c) continue;
+          const dx = b.x - o.ball.x, dz = b.z - o.ball.z, d = Math.hypot(dx, dz);
+          if (d >= SPACE) continue;
+          const k = (1 - d / SPACE) * (attack ? 0.7 : 1.6) / (d || 1);
+          ax += (d ? dx : Math.cos(c.i)) * k; az += (d ? dz : Math.sin(c.i)) * k;
+        }
         // Wanting to go and not getting anywhere (a wall, a post): edge round it, one way and then the other.
         const wants = ax !== 0 || az !== 0;
         c.stuck = wants && Math.hypot(b.vx, b.vz) < 0.8 ? c.stuck + dt : 0;
@@ -199,6 +210,15 @@ export function createPack(GFX, map, world, { killY, foes = [], props = [], star
           [ax, az] = [ax * cs - az * sn, ax * sn + az * cs];
         }
         stepBall(b, world, ax, az, dt, { push: PUSH * (toLady > 4 ? 2.4 : 0.9), topSpeed: Math.min(top, 26), drag: 0.4 });
+        // Never on top of each other, or of her.
+        for (const o of cats) {
+          if (o.i <= c.i) continue;
+          const dx = o.ball.x - b.x, dz = o.ball.z - b.z, d = Math.hypot(dx, dz);
+          if (d >= TOUCH) continue;
+          const push = (TOUCH - d) / 2 / (d || 1), px = d ? dx : 1, pz = d ? dz : 0;
+          b.x -= px * push; b.z -= pz * push; o.ball.x += px * push; o.ball.z += pz * push;
+        }
+        if (toLady < HER) { const k = (HER - toLady) / (toLady || 1); b.x -= (lady.x - b.x) * k; b.z -= (lady.z - b.z) * k; }
         const v = Math.hypot(b.vx, b.vz);
         if (aim && (attack || v < 0.5)) c.heading = Math.atan2(aim[0], aim[1]);
         else if (v > 0.3) c.heading = Math.atan2(b.vx, b.vz);

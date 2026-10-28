@@ -191,6 +191,18 @@ test('the pack is six cats to begin with, trots after her, and keeps up when she
   for (const c of run.pack.cats) assert.ok(Math.hypot(c.ball.x - run.ball.x, c.ball.z - run.ball.z) < 6, `a cat is ${Math.hypot(c.ball.x - run.ball.x, c.ball.z - run.ball.z).toFixed(1)} tiles behind`);
 });
 
+test('the cats keep out of each other\'s way, standing about and following', () => {
+  const run = createRun(GFX, { map: yard() });
+  let closest = Infinity;
+  for (let t = 0; t < 12; t += STEP) {
+    stepRun(run, t < 6 ? [0, 0] : [1, 0], STEP);
+    if (t < 2) continue;
+    const cs = run.pack.cats;
+    for (let i = 0; i < cs.length; i++) for (let j = i + 1; j < cs.length; j++) closest = Math.min(closest, Math.hypot(cs[i].ball.x - cs[j].ball.x, cs[i].ball.z - cs[j].ball.z));
+  }
+  assert.ok(closest > 0.3, `two cats were ${closest.toFixed(2)} tiles apart`);
+});
+
 test('a stray joins the pack when she comes to it, once, and it is the coat it was sitting in', () => {
   const m = yard();
   m.stray('Tabby', 8.5, 10.5);
