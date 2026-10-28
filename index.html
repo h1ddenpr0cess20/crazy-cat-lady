@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#2a1a2e">
+<meta name="description" content="Crazy Cat Lady: an old lady and her pack of cats loose in a city full of dog people. Take in strays, let the cats shoo everyone who gets in the way, and find the golden keys.">
+<title>Crazy Cat Lady</title>
+</head>
+<body>
+<div id="view"></div>
+
+<header id="top" hidden>
+  <div class="left">
+    <div id="place"></div>
+    <div class="gold"><span class="star">★</span><span id="gold">0/0</span><span class="label">keys</span></div>
+  </div>
+  <div class="mid">
+    <span class="label">patience</span>
+    <div id="patience"><div id="patience-fill"></div></div>
+    <div id="accel-bar"><span class="label">hurry</span><div id="accel"><div id="accel-fill"></div></div></div>
+    <div class="pack"><span class="label">cats</span><span id="pack">6</span></div>
+  </div>
+  <div class="right">
+    <div><span class="label">purrs</span><span id="cred">0</span><span id="combo"></span></div>
+    <div><span class="label">hearts</span><span id="likes">0</span></div>
+    <div><span class="label">time</span><span id="clock">0:00</span></div>
+  </div>
+</header>
+
+<canvas id="minimap" width="200" height="200" hidden></canvas>
+<div id="quip" hidden></div>
+<div id="banner" hidden></div>
+<div id="toast" hidden></div>
+<div id="pause" hidden>TEA BREAK<small>P to carry on</small></div>
+
+<section id="title" hidden>
+  <div class="logo">
+    <h1>CRAZY CAT LADY</h1>
+    <p class="tag">an old lady, her cats, and a city full of dog people</p>
+  </div>
+  <div class="menu">
+    <button id="start" type="button">OFF WE GO</button>
+    <button id="fresh" type="button" hidden>start over</button>
+    <p id="best"></p>
+    <p class="help">
+      <span class="keys"><kbd>←</kbd><kbd>↑</kbd><kbd>↓</kbd><kbd>→</kbd> or <kbd>WASD</kbd> walk</span>
+      <span>hold the mouse or a finger — walk toward it</span>
+      <span class="keys"><kbd>Q</kbd><kbd>E</kbd> or right-drag turn · wheel zoom · <kbd>C</kbd> reset view</span>
+      <span class="touch">two fingers: pinch to zoom, twist to turn</span>
+      <span class="keys">the cats do the fighting: keep them close, and take in every stray</span>
+      <span class="keys"><kbd>Space</kbd> or <kbd>Shift</kbd> hurry</span>
+      <span class="keys"><kbd>P</kbd> pause · <kbd>M</kbd> mute</span>
+    </p>
+  </div>
+</section>
+
+<button id="accel-touch" type="button">HURRY</button>
+<button id="mute" type="button" aria-pressed="false">sound on</button>
+<div id="loading" hidden><span>feeding the cats</span></div>
+<pre id="error" hidden></pre>
+
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>

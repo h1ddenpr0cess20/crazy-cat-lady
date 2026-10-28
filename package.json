@@ -1,0 +1,28 @@
+{
+  "name": "crazy-cat-lady",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Crazy Cat Lady. An old lady and her pack of cats loose in a city of dog people: the cats do the fighting, there are strays to take in, and 42 golden keys to find.",
+  "type": "module",
+  "engines": {
+    "node": ">=22.12"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite build && vite preview",
+    "test": "node --test \"test/**/*.test.js\"",
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.11.0",
+    "globals": "^17.12.0",
+    "vite": "^8.3.1"
+  },
+  "dependencies": {
+    "@fontsource/anton": "^5.3.0",
+    "@fontsource/barlow-condensed": "^5.3.0",
+    "madness-engine": "github:h1ddenpr0cess20/madness-engine"
+  }
+}
