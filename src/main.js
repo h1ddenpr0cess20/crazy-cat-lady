@@ -20,11 +20,12 @@ const hud = createHud(document.body, {
   onNew: () => { audio.wake(); game?.startOver(); },
 });
 hud.muted(audio.muted);
-// A quick click (or tap) swings the spoon; holding the pointer still walks toward it.
+// A quick left click (or tap) swings the spoon, and a quick right click jumps; holding the left
+// button walks toward the pointer, and dragging with the right turns the view, as before.
 let down = null;
-view.addEventListener('pointerdown', (e) => { down = e.isPrimary && e.button === 0 ? { t: performance.now(), x: e.clientX, y: e.clientY, id: e.pointerId } : null; });
+view.addEventListener('pointerdown', (e) => { down = e.isPrimary && (e.button === 0 || e.button === 2) ? { t: performance.now(), x: e.clientX, y: e.clientY, id: e.pointerId, press: e.button === 0 ? 'swing' : 'jump' } : null; });
 view.addEventListener('pointerup', (e) => {
-  if (down && down.id === e.pointerId && performance.now() - down.t < 250 && Math.hypot(e.clientX - down.x, e.clientY - down.y) < 12) input.press('swing');
+  if (down && down.id === e.pointerId && performance.now() - down.t < 250 && Math.hypot(e.clientX - down.x, e.clientY - down.y) < 12) input.press(down.press);
   down = null;
 });
 view.addEventListener('pointercancel', () => { down = null; });
