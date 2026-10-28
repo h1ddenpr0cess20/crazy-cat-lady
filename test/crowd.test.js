@@ -244,6 +244,33 @@ test('the cats get up kerbs and steps to follow her', () => {
   for (const c of run.pack.cats) assert.ok(c.ball.y - c.ball.r > 0.3, `a cat is stuck at the foot of the step (x ${c.ball.x.toFixed(1)}, y ${c.ball.y.toFixed(2)})`);
 });
 
+test('a plain kerb is nothing to a cat: the whole pack is up on the pavement without a pause', () => {
+  const m = new TownMap({ name: 'yard', cols: 90, rows: 30 });
+  m.flat(0, 0, 90, 30, 0, { surface: 'concrete' });
+  m.flat(20, 0, 70, 30, 0.15, { surface: 'concrete' });
+  m.start = { x: 3, z: 10 };
+  m.district('Yard', 0, 0, 90, 30, '#888');
+  const run = createRun(GFX, { map: m, foes: false });
+  // She walks up the kerb and on; they follow her, and none is left behind it.
+  placeBall(run.ball, 24.5, 0.15 + 0.36, 10.5);
+  let t = 0;
+  for (; t < 6; t += STEP) {
+    stepRun(run, [1, 0], STEP);
+    if (run.pack.cats.every((c) => c.ball.x > 21 && c.ball.y - c.ball.r > 0.1)) break;
+  }
+  assert.ok(t < 6, `a cat was still behind the kerb after ${t.toFixed(1)} s`);
+});
+
+test('on flat ground the cats never hop: standing about, following, or crowded round her', () => {
+  const run = createRun(GFX, { map: yard(), foes: false });
+  let air = 0;
+  for (let t = 0; t < 14; t += STEP) {
+    stepRun(run, t < 7 ? [0, 0] : [1, 0], STEP);
+    for (const c of run.pack.cats) if (!c.ball.grounded) air++;
+  }
+  assert.equal(air, 0, `${air} airborne cat-steps`);
+});
+
 test('the cats keep out of each other\'s way, standing about and following', () => {
   const run = createRun(GFX, { map: yard() });
   let closest = Infinity;
