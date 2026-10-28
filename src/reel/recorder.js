@@ -44,8 +44,8 @@ const CROWD = { density: 3, near: 5, far: 12 };
 /** Seconds the scene runs before the film starts. */
 const WARM = 3;
 
-/** How close the camera is (the game's usual is 1; smaller is nearer). */
-const ZOOM = 0.65;
+/** How close the camera is (the game's usual is 1; smaller is nearer): close in on the cats, which are small. */
+const ZOOM = 0.5;
 
 const town = createTown();
 /** Six strays taken in already, so the pack is twelve. */
@@ -55,6 +55,25 @@ const store = (() => {
 })();
 
 let told = 0, scene = 0;
+
+/** Where the camera is looking: eased toward the middle of the cats that are fighting (or the pack, if none is). */
+let eye = null;
+
+/** The camera for this step: it follows the swarm, not the lady. */
+function frame(game) {
+  const { run } = game.debug;
+  const cats = run.pack.cats;
+  const fighting = cats.filter((c) => run.time - c.struck < 1);
+  // The cats at it and the people they are at (who count for more, to keep them in the shot), or the whole pack if nobody is.
+  const group = fighting.length >= 2 ? [...fighting.map((c) => c.ball), ...fighting.filter((c) => c.target).flatMap((c) => [c.target.ball, c.target.ball, c.target.ball])] : cats.map((c) => c.ball);
+  const x = group.reduce((s, b) => s + b.x, 0) / group.length;
+  const z = group.reduce((s, b) => s + b.z, 0) / group.length;
+  const y = group.reduce((s, b) => s + b.y, 0) / group.length;
+  eye ??= [x, y, z];
+  const k = fighting.length >= 2 ? 0.04 : 0.015;
+  eye = [eye[0] + (x - eye[0]) * k, eye[1] + (y - eye[1]) * k, eye[2] + (z - eye[2]) * k];
+  game.debug.look = { at: eye, zoom: ZOOM };
+}
 
 createRecorder({
   async ready() {
@@ -105,10 +124,12 @@ createRecorder({
     for (let t = 0; t < WARM; t += STEP) stepRun(run, [0, 0], STEP);
     // Close in, for a phone held upright: the cats are small.
     game.debug.stage.view.aim.zoom = ZOOM;
+    eye = null;
   },
   // The lady wanders round in a slow circle; the cats do the rest.
   pilot: (game) => ({
     next() {
+      frame(game);
       const { ball, time } = game.debug.run;
       const a = time * 0.9;
       // A slow circle, drawn back toward where the scene is if she wanders off it.
@@ -126,7 +147,8 @@ createRecorder({
   state: (game) => game.state,
   phase: (game) => (game.debug.run.time > SCENE ? 'end' : game.state === 'play' ? 'live' : 'wait'),
   presses: () => [],
-  steering: (game) => game.state === 'play',
+  // No thumb: the camera is on the cats, and nobody is steering.
+  steering: () => false,
 
   /** Each foe shooed, by how: a swarm is worth more. */
   notes(game) {
