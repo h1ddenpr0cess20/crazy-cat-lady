@@ -20,13 +20,21 @@ const hud = createHud(document.body, {
   onNew: () => { audio.wake(); game?.startOver(); },
 });
 hud.muted(audio.muted);
+// A quick click (or tap) swings the spoon; holding the pointer still walks toward it.
+let down = null;
+view.addEventListener('pointerdown', (e) => { down = e.isPrimary && e.button === 0 ? { t: performance.now(), x: e.clientX, y: e.clientY, id: e.pointerId } : null; });
+view.addEventListener('pointerup', (e) => {
+  if (down && down.id === e.pointerId && performance.now() - down.t < 250 && Math.hypot(e.clientX - down.x, e.clientY - down.y) < 12) input.press('swing');
+  down = null;
+});
+view.addEventListener('pointercancel', () => { down = null; });
 for (const name of ['swing', 'jump']) {
   document.getElementById(`${name}-touch`).addEventListener('pointerdown', (e) => { e.stopPropagation(); input.press(name); });
 }
 document.getElementById('mute').addEventListener('mute', () => hud.muted(audio.toggleMute()));
 
 const input = createInput(view, { boost: {"pad":[0,2,7],"element":"accel-touch"},
-  presses: { ...PRESSES, KeyF: 'swing', KeyJ: 'swing', KeyZ: 'swing', KeyK: 'jump', KeyX: 'jump' },
+  presses: { ...PRESSES, KeyF: 'swing', KeyK: 'jump' },
   padPresses: (b, sx, sy) => ({ ...padPresses(b, sx, sy), swing: b(3) || b(5), jump: b(1) }),
   anchor: () => game?.marbleOnScreen(view.getBoundingClientRect()),
 });
