@@ -173,6 +173,28 @@ export function createCrowd(GFX, map, world, { killY, enabled = true, spawning =
     },
 
     /**
+     * The lady's swing at `time`: everyone within her reach (and their own
+     * size) takes `damage`, as if from a claw, and is shoved back from her.
+     * Returns the shoo events, and how many she hit.
+     */
+    swing(lady, damage, reach, shove, time) {
+      const shoos = [];
+      let hit = 0;
+      for (const f of foes) {
+        if (f.gone || f.dead || f.flung || !f.look.ready) continue;
+        const b = f.ball;
+        const dx = b.x - lady.x, dz = b.z - lady.z, d = Math.hypot(dx, dz) || 1e-6;
+        if (d > reach + b.r || Math.abs(b.y - lady.y) > 1.6) continue;
+        hit++;
+        const dir = [dx / d, dz / d];
+        const e = this.claw(f, 'lady', damage, dir, time);
+        if (e) shoos.push(e);
+        else { b.vx += dir[0] * shove; b.vz += dir[1] * shove; }
+      }
+      return { shoos, hit };
+    },
+
+    /**
      * One step. `ball` is the lady's, or null. Returns what happened to it
      * and the people: { type: 'bonk' | 'shout', grade, foe, damage, hype } for each.
      */

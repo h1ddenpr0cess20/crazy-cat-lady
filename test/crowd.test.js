@@ -191,6 +191,26 @@ test('the pack is six cats to begin with, trots after her, and keeps up when she
   for (const c of run.pack.cats) assert.ok(Math.hypot(c.ball.x - run.ball.x, c.ball.z - run.ball.z) < 6, `a cat is ${Math.hypot(c.ball.x - run.ball.x, c.ball.z - run.ball.z).toFixed(1)} tiles behind`);
 });
 
+test('she can swing her spoon herself: it hits all round her, shoves, shoos, and has to be waited for', () => {
+  const run = createRun(GFX, { map: yard(['pauser', 4.4, 10.5], ['pauser', 3.5, 11.6], ['doomer', 30.5, 10.5]) });
+  run.pack.cats.length = 0;
+  const far = run.crowd.foes[2];
+  // They were moved off the start; bring the two up beside her.
+  placeBall(run.crowd.foes[0].ball, 4.5, 0.37, 10.5);
+  placeBall(run.crowd.foes[1].ball, 3.5, 0.37, 11.5);
+  const first = stepRun(run, [0, 0], STEP, { swing: true });
+  assert.ok(first.swung);
+  assert.equal(first.swingHit, 2, 'both near ones, not the far one');
+  assert.ok(run.crowd.foes[0].hp < FOES.pauser.toughness * 2 && far.hp === FOES.doomer.toughness * 2);
+  assert.ok(run.crowd.foes[0].ball.vx > 1, 'shoved away from her');
+  // Her arm isn't ready again straight away.
+  assert.ok(!stepRun(run, [0, 0], STEP, { swing: true }).swung);
+  const shoos = [];
+  for (let t = 0; t < 4; t += STEP) shoos.push(...stepRun(run, [0, 0], STEP, { swing: t % 0.8 < STEP }).shoos);
+  assert.equal(shoos.length, 2, 'a few swings and both are shooed');
+  assert.ok(run.cred >= FOES.pauser.hype * 2);
+});
+
 test('the cats keep out of each other\'s way, standing about and following', () => {
   const run = createRun(GFX, { map: yard() });
   let closest = Infinity;

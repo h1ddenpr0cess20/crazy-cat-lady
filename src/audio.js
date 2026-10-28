@@ -203,6 +203,15 @@ export function createAudio() {
       if (big) tone({ at: 0.06, freq: 1320, to: 660, length: 0.5, type: 'triangle', gain: 0.1 });
     },
 
+    /** The lady's swing of the spoon: a whoosh, and a thwack if it hit somebody. */
+    swing(hit = false) {
+      burst({ length: 0.16, type: 'bandpass', freq: 500, sweep: 2400, q: 0.9, gain: 0.3 });
+      if (hit) {
+        tone({ at: 0.08, freq: 180, to: 70, length: 0.14, type: 'triangle', gain: 0.4 });
+        burst({ at: 0.08, length: 0.06, freq: 1200, gain: 0.35 });
+      }
+    },
+
     /** A cat's claw landing: a quick ripping swipe and a hiss. */
     claw() {
       burst({ length: 0.09, type: 'bandpass', freq: 3200, sweep: 1400, q: 1.2, gain: 0.25 });

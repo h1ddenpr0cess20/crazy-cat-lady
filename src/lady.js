@@ -13,12 +13,15 @@ import { isBaked } from './cast/library.js';
 export const MODEL = 'nonna';
 const DETAIL = 0.5;
 
+/** How long her swing takes to play through. */
+const SWING_TIME = 0.85;
+
 export function createLady(GFX) {
   const group = new GFX.Group();
   group.name = 'lady';
   const body = new GFX.Group();
   group.add(body);
-  let model = null, heading = 0, clip = 'idle', since = 0, flinched = -9;
+  let model = null, heading = 0, clip = 'idle', since = 0, flinched = -9, swung = -9;
   return {
     group,
     get built() { return model !== null; },
@@ -30,6 +33,8 @@ export function createLady(GFX) {
       }
       return model !== null;
     },
+    /** She has swung her spoon at `time`. */
+    swing(time) { swung = time; },
     /** She has been knocked: a flinch. */
     flinch(time) { flinched = time; },
     /** Every frame: `ball` is where she is; `down` once she is flustered. */
@@ -45,9 +50,10 @@ export function createLady(GFX) {
       }
       body.rotation.y = heading;
       const hit = time - flinched < 0.4;
-      const next = down ? 'ko' : hit ? 'hit' : speed > 0.4 || pushing ? 'walk' : 'idle';
+      const swinging = time - swung < SWING_TIME;
+      const next = down ? 'ko' : swinging ? 'attack' : hit ? 'hit' : speed > 0.4 || pushing ? 'walk' : 'idle';
       if (next !== clip) { clip = next; since = time; }
-      model.pose({ clip, t: clip === 'hit' ? time - flinched : time - since, time, seed: 0, speed: Math.max(0.6, Math.min(2.6, speed / 3.2)) });
+      model.pose({ clip, t: clip === 'hit' ? time - flinched : clip === 'attack' ? time - swung : time - since, time, seed: 0, speed: Math.max(0.6, Math.min(2.6, speed / 3.2)) });
     },
   };
 }

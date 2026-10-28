@@ -1,6 +1,7 @@
 import { RADIUS } from 'madness-engine/heroes/ball';
 import { createCrowd } from './crowd.js';
 import { createHazards } from './hazards.js';
+import { SWING } from './claws.js';
 import { COATS, createPack, START } from './pack.js';
 import { buildMap, DEPTH } from './map.js';
 import { BREAK_SPEED, createBall, placeBall, PUSH, stepBall, TOP_SPEED } from 'madness-engine/physics';
@@ -86,7 +87,7 @@ export function createRun(GFX, { ball = createBall({ r: RADIUS }), map = createT
     checkpoint: stones.find((p) => p.name === 'Home') ?? null,
     district: null,
     sinking: 0,
-    cooldown: { car: 0, flare: 0, reel: 0 },
+    cooldown: { car: 0, flare: 0, reel: 0, swing: 0 },
     accel: 1, winded: false,
   };
   hazards.place(0);
@@ -134,14 +135,14 @@ export function under(run) {
  * what they knocked over, what she picked up, and `outcome` — null, or
  * 'flustered', 'squashed' or 'sunk'.
  */
-export function stepRun(run, push, dt = STEP, { live = true, moving = true, boost = false } = {}) {
+export function stepRun(run, push, dt = STEP, { live = true, moving = true, boost = false, swing = false } = {}) {
   const ball = run.ball;
   run.time += dt;
   run.hazards.place(run.time, dt);
   const honks = run.traffic.step(dt, live && moving ? ball : null);
   const events = run.hazards.step(dt, run.time, live && moving ? ball : null);
   const crowd = run.crowd.step(dt, run.time, live && moving ? ball : null);
-  const out = { accelerating: false, impact: 0, hurt: 0, hits: [], honks, picked: [], stray: null, gpu: null, sharpened: null, district: null, outcome: null, surface: null, shoos: [], claws: [], breaks: [], knocks: [], shouts: [], cred: 0, combo: 0 };
+  const out = { accelerating: false, impact: 0, hurt: 0, hits: [], honks, picked: [], swung: false, stray: null, gpu: null, sharpened: null, district: null, outcome: null, surface: null, shoos: [], claws: [], breaks: [], knocks: [], shouts: [], cred: 0, combo: 0 };
   if (!moving) return out;
 
   for (const k in run.cooldown) run.cooldown[k] -= dt;
@@ -213,7 +214,16 @@ export function stepRun(run, push, dt = STEP, { live = true, moving = true, boos
   const speed = Math.hypot(ball.vx, ball.vz);
   const cats = run.pack.step(dt, run.time, live && moving ? ball : null, speed, (f, cat, damage, dir, time) => run.crowd.claw(f, cat, damage, dir, time));
   out.claws = cats.claws;
-  for (const e of cats.shoos) {
+  // Her own swing, if she has asked for one and her arm is ready.
+  const shoos = [...cats.shoos];
+  if (swing && run.cooldown.swing <= 0) {
+    run.cooldown.swing = SWING.every;
+    out.swung = true;
+    const hit = run.crowd.swing(ball, SWING.damage, SWING.reach, SWING.shove, run.time);
+    shoos.push(...hit.shoos);
+    out.swingHit = hit.hit;
+  }
+  for (const e of shoos) {
     run.smashed++;
     run.combo = run.comboTime > 0 ? Math.min(COMBO.most, run.combo + 1) : 1;
     run.comboTime = COMBO.window;

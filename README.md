@@ -5,7 +5,7 @@ dog people. There are no tracks and no levels: it is one map, all of it there
 from the start, and she can walk anywhere she can get to. In the way are the
 dog walkers and the dog park activists, the allergic neighbours, the council
 inspectors, the animal control officers, the joggers who were not looking, and
-the dogs. She doesn't lift a finger. **The cats do the fighting.**
+the dogs. She mostly doesn't lift a finger. **The cats do the fighting.**
 
 Somewhere in all of it are **42 golden keys**, and **ten strays** sitting
 about waiting to be taken in.
@@ -40,6 +40,7 @@ doesn't (`?renderer=webgl` pins it). Node 22.12 or later.
 |---|---|
 | <kbd>←</kbd><kbd>↑</kbd><kbd>↓</kbd><kbd>→</kbd> or <kbd>WASD</kbd> | Walk. Up always walks up the screen, however the view is turned. |
 | Hold the mouse or a finger | Walk toward the pointer. The further it is from her, the harder she goes. |
+| <kbd>F</kbd> or <kbd>J</kbd> | **Swing** the wooden spoon. It comes round the whole of her, hits everybody within reach and shoves them back. Three hit points a swing, and her arm needs 0.7 s between swings; the cats do the rest. The SWING button on a touch screen; <kbd>B</kbd>, <kbd>Y</kbd> or the right bumper on a gamepad. |
 | <kbd>Space</kbd> or <kbd>Shift</kbd> | **Hurry**: hold it for a faster walk, until the meter runs dry (it refills when you let go). The HURRY button on a touch screen. The cats keep up. |
 | <kbd>Q</kbd> <kbd>E</kbd>, or drag with the right mouse button | Turn the view. Dragging up and down tilts it. |
 | Mouse wheel, or <kbd>+</kbd> <kbd>−</kbd> | Zoom. |

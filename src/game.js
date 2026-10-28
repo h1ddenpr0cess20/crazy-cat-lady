@@ -62,6 +62,7 @@ export function createGame({ stage, hud, input, audio, storage }) {
   let elapsed = saved.time;
   let likesGot = 0;
   let streak = 0, streakTimer = 0;
+  let swingWanted = false;
   let saveTimer = 0;
   let playZoom = HOME.zoom;
   const seen = new Set();
@@ -154,7 +155,8 @@ export function createGame({ stage, hud, input, audio, storage }) {
   function physics(push, boost) {
     const live = state === 'play';
     const moving = state !== 'lost' || lostHow === 'sunk';
-    const out = stepRun(run, push, STEP, { live, moving: moving && state !== 'title', boost });
+    const out = stepRun(run, push, STEP, { live, moving: moving && state !== 'title', boost, swing: swingWanted });
+    swingWanted = false;
     if (state !== 'play') return;
     const b = run.ball;
     for (const car of out.honks) audio.honk(car.kind);
@@ -174,6 +176,11 @@ export function createGame({ stage, hud, input, audio, storage }) {
     for (const foe of out.shouts) hud.toast(`${foe.stats.name}: “${foe.stats.shout}”`, 2.2);
     for (const e of out.knocks) {
       hud.quip(GRADES[e.grade], say(e.grade), 2.2);
+    }
+    if (out.swung) {
+      lady.swing(run.time);
+      audio.swing(out.swingHit > 0);
+      if (out.swingHit > 0) { const a = lady.group.position; effects.sparks(a.x, a.y + 0.4, a.z, 6); }
     }
     for (const c of out.claws) {
       const at = c.foe.ball;
@@ -262,6 +269,7 @@ export function createGame({ stage, hud, input, audio, storage }) {
 
     for (const p of presses) {
       if (p === 'mute') hud.muted(audio.toggleMute());
+      if (p === 'swing' && state === 'play' && !paused) swingWanted = true;
       if (p === 'home') {
         view.reset();
         if (state === 'title') view.aim.zoom = TITLE_ZOOM;

@@ -2,7 +2,7 @@ import './styles.css';
 import { createAudio } from './audio.js';
 import { createGame } from './game.js';
 import { createHud } from './hud.js';
-import { createInput } from 'madness-engine/input';
+import { createInput, PRESSES, padPresses } from 'madness-engine/input';
 import { preload } from './cast/library.js';
 import { bakeAll } from './models/library.js';
 import { createStage } from './stage.js';
@@ -20,9 +20,13 @@ const hud = createHud(document.body, {
   onNew: () => { audio.wake(); game?.startOver(); },
 });
 hud.muted(audio.muted);
+const swingButton = document.getElementById('swing-touch');
+swingButton.addEventListener('pointerdown', (e) => { e.stopPropagation(); input.press('swing'); });
 document.getElementById('mute').addEventListener('mute', () => hud.muted(audio.toggleMute()));
 
 const input = createInput(view, { boost: {"pad":[0,2,7],"element":"accel-touch"},
+  presses: { ...PRESSES, KeyF: 'swing', KeyJ: 'swing', KeyZ: 'swing' },
+  padPresses: (b, sx, sy) => ({ ...padPresses(b, sx, sy), swing: b(1) || b(3) || b(5) }),
   anchor: () => game?.marbleOnScreen(view.getBoundingClientRect()),
 });
 
