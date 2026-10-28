@@ -34,8 +34,21 @@ for (const name of ['swing', 'jump']) {
 }
 document.getElementById('mute').addEventListener('mute', () => hud.muted(audio.toggleMute()));
 
-const input = createInput(view, { boost: {"pad":[0,2,7],"element":"accel-touch"},
-  presses: { ...PRESSES, KeyF: 'swing', KeyK: 'jump' },
+// Hurry is Shift (or the on-screen button, or the pad's A, X or right trigger) and nothing else: Space is
+// the jump, so the input's own boost (which takes Space too) is not used.
+const heldKeys = new Set();
+addEventListener('keydown', (e) => { if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') heldKeys.add(e.code); });
+addEventListener('keyup', (e) => heldKeys.delete(e.code));
+addEventListener('blur', () => heldKeys.clear());
+let touchHurry = false;
+const hurryButton = document.getElementById('accel-touch');
+hurryButton.addEventListener('pointerdown', (e) => { e.stopPropagation(); e.preventDefault(); touchHurry = true; });
+for (const type of ['pointerup', 'pointercancel', 'pointerleave']) hurryButton.addEventListener(type, () => { touchHurry = false; });
+const padHurry = () => [...(navigator.getGamepads?.() ?? [])].some((p) => p && [0, 2, 7].some((i) => p.buttons[i]?.pressed));
+const hurry = () => heldKeys.size > 0 || touchHurry || padHurry();
+
+const input = createInput(view, {
+  presses: { ...PRESSES, Space: ['start', 'jump'], KeyF: 'swing', KeyK: 'jump' },
   padPresses: (b, sx, sy) => ({ ...padPresses(b, sx, sy), swing: b(3) || b(5), jump: b(1) }),
   anchor: () => game?.marbleOnScreen(view.getBoundingClientRect()),
 });
@@ -46,7 +59,9 @@ try {
   const bar = document.getElementById('loading');
   bar.hidden = false;
   await bakeAll(stage.GFX, (k) => { bar.style.setProperty('--done', `${Math.round(k * 100)}%`); });
-  game = createGame({ stage, hud, input, audio, storage: createStorage() });
+  // What the game asks of the controls: the input's, with hurry as above.
+  const controls = { stick: () => input.stick(), view: (dt) => input.view(dt), take: () => input.take(), boost: hurry };
+  game = createGame({ stage, hud, input: controls, audio, storage: createStorage() });
   globalThis.crazyCatLady = game;
   // Every shader there will be is compiled now, behind the bar, not the first time somebody comes into view.
   stage.warm(game.samples());
