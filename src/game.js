@@ -158,6 +158,7 @@ export function createGame({ stage, hud, input, audio, storage }) {
     const out = stepRun(run, push, STEP, { live, moving: moving && state !== 'title', boost, swing: swingWanted, jump: jumpWanted });
     swingWanted = false;
     jumpWanted = false;
+    if (debug.pilot && state === 'play') debug.pilot.saw(out);
     if (state !== 'play') return;
     const b = run.ball;
     for (const car of out.honks) audio.honk(car.kind);
@@ -190,6 +191,7 @@ export function createGame({ stage, hud, input, audio, storage }) {
       audio.claw();
     }
     for (const e of out.shoos) {
+      debug.shoos.push(e.grade);
       const at = e.foe.ball;
       effects.sparks(at.x, at.y, at.z, 16);
       effects.chaff(at.x, at.y, at.z);
@@ -300,7 +302,9 @@ export function createGame({ stage, hud, input, audio, storage }) {
     accumulator = Math.min(accumulator + dt, STEP * 12);
     while (accumulator >= STEP) {
       accumulator -= STEP;
-      physics(state === 'play' ? push : [0, 0], state === 'play' && boosting);
+      // Steered by the autopilot (the reels), if one is aboard; by the controls if not.
+      const auto = state === 'play' && debug.pilot ? debug.pilot.next() : null;
+      physics(state === 'play' ? auto?.push ?? push : [0, 0], state === 'play' && boosting);
     }
 
     const b = run.ball;
@@ -370,6 +374,10 @@ export function createGame({ stage, hud, input, audio, storage }) {
   /** For the console and screenshots: the run, a camera override (`look`), and a way to jump about. */
   const debug = {
     stage, look: null,
+    /** An autopilot, for the reels: `next()` gives { push: [x, z] } each step, `saw(out)` is told what happened. */
+    pilot: null,
+    /** How each foe shooed so far was shooed ('shoo' or 'swarm'), in order. */
+    shoos: [],
     get run() { return run; },
     get ball() { return run.ball; },
     teleport(x, z) {

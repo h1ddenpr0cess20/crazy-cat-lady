@@ -69,6 +69,8 @@ export function createCrowd(GFX, map, world, { killY, enabled = true, spawning =
   const foes = (enabled ? map.foes : []).map(make);
   const rnd = seeded(seed);
   let spawnTimer = 0, sweepTimer = 0;
+  /** How many more than her district's density, and how near and far they are made: the reels crowd her. */
+  const tuning = { density: 1, near: RING.near, far: RING.far };
 
   /** The foe, thrown clear: up and away along `dir` ([x, z], unit), as hard as `speed`. */
   function fling(foe, dir, speed, time) {
@@ -100,12 +102,12 @@ export function createCrowd(GFX, map, world, { killY, enabled = true, spawning =
     if (spawnTimer < EVERY) return;
     spawnTimer = 0;
     const here = map.districtAt(lady.x, lady.z);
-    const want = DENSITY[here?.name] ?? FALLBACK;
+    const want = Math.round((DENSITY[here?.name] ?? FALLBACK) * tuning.density);
     let near = 0;
-    for (const f of foes) if (!f.gone && !f.dead && !f.stats.boss && Math.hypot(f.ball.x - lady.x, f.ball.z - lady.z) < RING.far + 4) near++;
+    for (const f of foes) if (!f.gone && !f.dead && !f.stats.boss && Math.hypot(f.ball.x - lady.x, f.ball.z - lady.z) < tuning.far + 4) near++;
     if (near >= want) return;
     for (let k = 0; k < TRIES; k++) {
-      const a = rnd() * Math.PI * 2, r = RING.near + rnd() * (RING.far - RING.near);
+      const a = rnd() * Math.PI * 2, r = tuning.near + rnd() * (tuning.far - tuning.near);
       const x = lady.x + Math.cos(a) * r, z = lady.z + Math.sin(a) * r;
       const ground = map.heightAt(x, z);
       // On firm, level, open ground at about her height (not up on a roof), where somebody could stand.
@@ -125,6 +127,9 @@ export function createCrowd(GFX, map, world, { killY, enabled = true, spawning =
 
   return {
     group, foes,
+
+    /** Crowd her more (or less): a `density` factor on the district's, and the `near` and `far` they are made at. */
+    tune(o) { Object.assign(tuning, o); },
 
     /**
      * Somebody is standing where the ball is about to be put (a respawn, the
