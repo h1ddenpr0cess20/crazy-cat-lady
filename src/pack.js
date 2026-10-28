@@ -1,6 +1,6 @@
 import { CAT_KINDS } from 'madness-engine/characters/cat';
 import { createModel } from 'madness-engine/models/model';
-import { createBall, placeBall, PUSH, stepBall } from 'madness-engine/physics';
+import { createBall, GRAVITY, placeBall, PUSH, stepBall } from 'madness-engine/physics';
 import { CAST } from './cast/index.js';
 import { isBaked } from './cast/library.js';
 import { CLAW_EVERY } from './claws.js';
@@ -33,6 +33,9 @@ const HUNT = 7, CHASE = 9;
 
 /** How far from the lady a cat will go after anything: past this it gives up and comes back to her. */
 const LEASH = 8;
+
+/** A cat's hop over a kerb: up about half a tile. */
+const HOP = Math.sqrt(2 * GRAVITY * 0.55);
 
 /** How far behind the lady a cat can fall before it is put back beside her (it runs to catch up long before that). */
 const LOST = 28;
@@ -67,7 +70,7 @@ export function createPack(GFX, map, world, { killY, foes = [], props = [], star
     ball.grounded = true;
     const cat = {
       i, coat, kind, look, body, ball, claw: CLAW(kind),
-      heading: 0, stuck: 0, target: null, prop: null, cooldown: i * 0.1, seeking: 0, struck: -9, still: 0, mischief: 3 + i * 2.1,
+      heading: 0, stuck: 0, hop: 0, target: null, prop: null, cooldown: i * 0.1, seeking: 0, struck: -9, still: 0, mischief: 3 + i * 2.1,
       clip: 'idle', since: 0,
       get built() { return model !== null; },
       build() {
@@ -150,6 +153,7 @@ export function createPack(GFX, map, world, { killY, foes = [], props = [], star
       for (const c of cats) {
         const b = c.ball;
         c.cooldown -= dt;
+        c.hop -= dt;
         c.seeking -= dt;
         c.mischief -= dt;
         const toLady = Math.hypot(lady.x - b.x, lady.z - b.z);
@@ -204,7 +208,9 @@ export function createPack(GFX, map, world, { killY, foes = [], props = [], star
         // Wanting to go and not getting anywhere (a wall, a post): edge round it, one way and then the other.
         const wants = ax !== 0 || az !== 0;
         c.stuck = wants && Math.hypot(b.vx, b.vz) < 0.8 ? c.stuck + dt : 0;
-        if (c.stuck > 0.3) {
+        // A kerb or a step in the way: up and over it (a cat can jump many times its own height).
+        if (c.stuck > 0.12 && b.grounded && c.hop <= 0) { b.vy = HOP; b.grounded = false; c.hop = 0.5; }
+        if (c.stuck > 0.5) {
           const turn = (Math.floor(c.stuck / 0.7) % 2 ? -1 : 1) * (c.i % 2 ? 1 : -1) * 1.2;
           const cs = Math.cos(turn), sn = Math.sin(turn);
           [ax, az] = [ax * cs - az * sn, ax * sn + az * cs];

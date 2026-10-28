@@ -211,6 +211,39 @@ test('she can swing her spoon herself: it hits all round her, shoves, shoos, and
   assert.ok(run.cred >= FOES.pauser.hype * 2);
 });
 
+test('she can jump, from the ground and not from the air, high enough for a kerb and not for a house', () => {
+  const run = createRun(GFX, { map: yard(), foes: false });
+  for (let t = 0; t < 0.5; t += STEP) stepRun(run, [0, 0], STEP);
+  assert.ok(run.ball.grounded);
+  const floor = run.ball.y;
+  let top = floor, jumps = 0, again = 0;
+  for (let t = 0; t < 1.2; t += STEP) {
+    const o = stepRun(run, [0, 0], STEP, { jump: true });
+    if (o.jumped) jumps++;
+    top = Math.max(top, run.ball.y);
+  }
+  assert.ok(jumps >= 1 && jumps <= 3, `${jumps} jumps`);
+  assert.ok(top - floor > 1.0 && top - floor < 1.6, `${(top - floor).toFixed(2)} tiles up`);
+  // Held in the air, nothing more happens.
+  const air = createRun(GFX, { map: yard(), foes: false });
+  for (let t = 0; t < 0.4; t += STEP) stepRun(air, [0, 0], STEP);
+  stepRun(air, [0, 0], STEP, { jump: true });
+  for (let t = 0; t < 0.15; t += STEP) again += stepRun(air, [0, 0], STEP, { jump: true }).jumped ? 1 : 0;
+  assert.equal(again, 0);
+});
+
+test('the cats get up kerbs and steps to follow her', () => {
+  const m = new TownMap({ name: 'yard', cols: 90, rows: 30 });
+  m.flat(0, 0, 90, 30, 0, { surface: 'concrete' });
+  m.flat(20, 0, 70, 30, 0.45, { surface: 'concrete' });
+  m.start = { x: 3, z: 10 };
+  m.district('Yard', 0, 0, 90, 30, '#888');
+  const run = createRun(GFX, { map: m, foes: false });
+  placeBall(run.ball, 26.5, 0.45 + 0.36, 10.5);
+  for (let t = 0; t < 10; t += STEP) stepRun(run, [0, 0], STEP);
+  for (const c of run.pack.cats) assert.ok(c.ball.y - c.ball.r > 0.3, `a cat is stuck at the foot of the step (x ${c.ball.x.toFixed(1)}, y ${c.ball.y.toFixed(2)})`);
+});
+
 test('the cats keep out of each other\'s way, standing about and following', () => {
   const run = createRun(GFX, { map: yard() });
   let closest = Infinity;

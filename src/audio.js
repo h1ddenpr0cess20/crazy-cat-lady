@@ -203,6 +203,11 @@ export function createAudio() {
       if (big) tone({ at: 0.06, freq: 1320, to: 660, length: 0.5, type: 'triangle', gain: 0.1 });
     },
 
+    /** A jump: a little spring up. */
+    hop() {
+      tone({ freq: 260, to: 520, length: 0.14, type: 'triangle', gain: 0.12 });
+    },
+
     /** The lady's swing of the spoon: a whoosh, and a thwack if it hit somebody. */
     swing(hit = false) {
       burst({ length: 0.16, type: 'bandpass', freq: 500, sweep: 2400, q: 0.9, gain: 0.3 });

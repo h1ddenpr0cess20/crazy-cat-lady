@@ -4,7 +4,7 @@ import { createHazards } from './hazards.js';
 import { SWING } from './claws.js';
 import { COATS, createPack, START } from './pack.js';
 import { buildMap, DEPTH } from './map.js';
-import { BREAK_SPEED, createBall, placeBall, PUSH, stepBall, TOP_SPEED } from 'madness-engine/physics';
+import { BREAK_SPEED, createBall, GRAVITY, placeBall, PUSH, stepBall, TOP_SPEED } from 'madness-engine/physics';
 import { surfaceOf } from 'madness-engine/textures/town/surfaces.metrlol';
 import { createTown } from './town.js';
 import { createTraffic } from './traffic.js';
@@ -44,6 +44,9 @@ export const ACCEL = Object.freeze({ push: 1.9, top: 1.75, drain: 0.34, refill: 
 
 /** How hard a landing has to be to hurt, and how much each kind of knock costs. */
 export const HURT = Object.freeze({ landing: 9.5, car: 2.6, reel: 3.2, flare: 34, foe: 1.6 });
+
+/** A jump: up about this many tiles (enough for a kerb, a step, a low wall), and not again until she has landed and this long has gone. */
+export const JUMP = Object.freeze({ height: 1.3, again: 0.25 });
 
 /** How fast she stops when she stops pushing: a walker doesn't coast like a ball. */
 const STOP = 7;
@@ -87,7 +90,7 @@ export function createRun(GFX, { ball = createBall({ r: RADIUS }), map = createT
     checkpoint: stones.find((p) => p.name === 'Home') ?? null,
     district: null,
     sinking: 0,
-    cooldown: { car: 0, flare: 0, reel: 0, swing: 0 },
+    cooldown: { car: 0, flare: 0, reel: 0, swing: 0, jump: 0 },
     accel: 1, winded: false,
   };
   hazards.place(0);
@@ -135,14 +138,14 @@ export function under(run) {
  * what they knocked over, what she picked up, and `outcome` — null, or
  * 'flustered', 'squashed' or 'sunk'.
  */
-export function stepRun(run, push, dt = STEP, { live = true, moving = true, boost = false, swing = false } = {}) {
+export function stepRun(run, push, dt = STEP, { live = true, moving = true, boost = false, swing = false, jump = false } = {}) {
   const ball = run.ball;
   run.time += dt;
   run.hazards.place(run.time, dt);
   const honks = run.traffic.step(dt, live && moving ? ball : null);
   const events = run.hazards.step(dt, run.time, live && moving ? ball : null);
   const crowd = run.crowd.step(dt, run.time, live && moving ? ball : null);
-  const out = { accelerating: false, impact: 0, hurt: 0, hits: [], honks, picked: [], swung: false, stray: null, gpu: null, sharpened: null, district: null, outcome: null, surface: null, shoos: [], claws: [], breaks: [], knocks: [], shouts: [], cred: 0, combo: 0 };
+  const out = { accelerating: false, impact: 0, hurt: 0, hits: [], honks, picked: [], swung: false, jumped: false, stray: null, gpu: null, sharpened: null, district: null, outcome: null, surface: null, shoos: [], claws: [], breaks: [], knocks: [], shouts: [], cred: 0, combo: 0 };
   if (!moving) return out;
 
   for (const k in run.cooldown) run.cooldown[k] -= dt;
@@ -159,6 +162,13 @@ export function stepRun(run, push, dt = STEP, { live = true, moving = true, boos
   if (run.accel <= 0) run.winded = true;
   else if (run.winded && run.accel >= ACCEL.resume) run.winded = false;
   out.accelerating = on;
+  // A jump, off the ground, if she has asked for one.
+  if (live && jump && ball.grounded && run.cooldown.jump <= 0) {
+    ball.vy = Math.sqrt(2 * GRAVITY * JUMP.height);
+    ball.grounded = false;
+    run.cooldown.jump = JUMP.again;
+    out.jumped = true;
+  }
   const result = stepBall(ball, run.world, push[0] * grip, push[1] * grip, dt, {
     drag: cell ? kind.drag : 0.5,
     push: on ? PUSH * ACCEL.push : PUSH,

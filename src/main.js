@@ -20,13 +20,14 @@ const hud = createHud(document.body, {
   onNew: () => { audio.wake(); game?.startOver(); },
 });
 hud.muted(audio.muted);
-const swingButton = document.getElementById('swing-touch');
-swingButton.addEventListener('pointerdown', (e) => { e.stopPropagation(); input.press('swing'); });
+for (const name of ['swing', 'jump']) {
+  document.getElementById(`${name}-touch`).addEventListener('pointerdown', (e) => { e.stopPropagation(); input.press(name); });
+}
 document.getElementById('mute').addEventListener('mute', () => hud.muted(audio.toggleMute()));
 
 const input = createInput(view, { boost: {"pad":[0,2,7],"element":"accel-touch"},
-  presses: { ...PRESSES, KeyF: 'swing', KeyJ: 'swing', KeyZ: 'swing' },
-  padPresses: (b, sx, sy) => ({ ...padPresses(b, sx, sy), swing: b(1) || b(3) || b(5) }),
+  presses: { ...PRESSES, KeyF: 'swing', KeyJ: 'swing', KeyZ: 'swing', KeyK: 'jump', KeyX: 'jump' },
+  padPresses: (b, sx, sy) => ({ ...padPresses(b, sx, sy), swing: b(3) || b(5), jump: b(1) }),
   anchor: () => game?.marbleOnScreen(view.getBoundingClientRect()),
 });
 

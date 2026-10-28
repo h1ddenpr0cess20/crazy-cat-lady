@@ -62,7 +62,7 @@ export function createGame({ stage, hud, input, audio, storage }) {
   let elapsed = saved.time;
   let likesGot = 0;
   let streak = 0, streakTimer = 0;
-  let swingWanted = false;
+  let swingWanted = false, jumpWanted = false;
   let saveTimer = 0;
   let playZoom = HOME.zoom;
   const seen = new Set();
@@ -155,8 +155,9 @@ export function createGame({ stage, hud, input, audio, storage }) {
   function physics(push, boost) {
     const live = state === 'play';
     const moving = state !== 'lost' || lostHow === 'sunk';
-    const out = stepRun(run, push, STEP, { live, moving: moving && state !== 'title', boost, swing: swingWanted });
+    const out = stepRun(run, push, STEP, { live, moving: moving && state !== 'title', boost, swing: swingWanted, jump: jumpWanted });
     swingWanted = false;
+    jumpWanted = false;
     if (state !== 'play') return;
     const b = run.ball;
     for (const car of out.honks) audio.honk(car.kind);
@@ -177,6 +178,7 @@ export function createGame({ stage, hud, input, audio, storage }) {
     for (const e of out.knocks) {
       hud.quip(GRADES[e.grade], say(e.grade), 2.2);
     }
+    if (out.jumped) audio.hop();
     if (out.swung) {
       lady.swing(run.time);
       audio.swing(out.swingHit > 0);
@@ -270,6 +272,7 @@ export function createGame({ stage, hud, input, audio, storage }) {
     for (const p of presses) {
       if (p === 'mute') hud.muted(audio.toggleMute());
       if (p === 'swing' && state === 'play' && !paused) swingWanted = true;
+      if (p === 'jump' && state === 'play' && !paused) jumpWanted = true;
       if (p === 'home') {
         view.reset();
         if (state === 'title') view.aim.zoom = TITLE_ZOOM;

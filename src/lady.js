@@ -51,9 +51,10 @@ export function createLady(GFX) {
       body.rotation.y = heading;
       const hit = time - flinched < 0.4;
       const swinging = time - swung < SWING_TIME;
-      const next = down ? 'ko' : swinging ? 'attack' : hit ? 'hit' : speed > 0.4 || pushing ? 'walk' : 'idle';
+      const air = !ball.grounded && ball.vy !== 0;
+      const next = down ? 'ko' : swinging ? 'attack' : hit ? 'hit' : air ? 'win' : speed > 0.4 || pushing ? 'walk' : 'idle';
       if (next !== clip) { clip = next; since = time; }
-      model.pose({ clip, t: clip === 'hit' ? time - flinched : clip === 'attack' ? time - swung : time - since, time, seed: 0, speed: Math.max(0.6, Math.min(2.6, speed / 3.2)) });
+      model.pose({ clip, t: clip === 'hit' ? time - flinched : clip === 'attack' ? time - swung : clip === 'win' ? Math.min(0.3, time - since) : time - since, time, seed: 0, speed: Math.max(0.6, Math.min(2.6, speed / 3.2)) });
     },
   };
 }

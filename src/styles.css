@@ -366,4 +366,18 @@ kbd {
   border-radius: 50%;
   touch-action: none;
 }
-@media (pointer: coarse) { #top:not([hidden]) ~ #accel-touch, #top:not([hidden]) ~ #swing-touch { display: block; } }
+#jump-touch {
+  display: none;
+  position: fixed;
+  right: max(110px, env(safe-area-inset-right));
+  bottom: max(120px, env(safe-area-inset-bottom));
+  padding: 22px 20px;
+  font: 400 20px var(--display);
+  letter-spacing: 0.08em;
+  color: var(--ink);
+  background: rgba(60, 110, 200, 0.85);
+  border: 3px solid rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  touch-action: none;
+}
+@media (pointer: coarse) { #top:not([hidden]) ~ #accel-touch, #top:not([hidden]) ~ #swing-touch, #top:not([hidden]) ~ #jump-touch { display: block; } }

@@ -40,7 +40,8 @@ doesn't (`?renderer=webgl` pins it). Node 22.12 or later.
 |---|---|
 | <kbd>←</kbd><kbd>↑</kbd><kbd>↓</kbd><kbd>→</kbd> or <kbd>WASD</kbd> | Walk. Up always walks up the screen, however the view is turned. |
 | Hold the mouse or a finger | Walk toward the pointer. The further it is from her, the harder she goes. |
-| <kbd>F</kbd> or <kbd>J</kbd> | **Swing** the wooden spoon. It comes round the whole of her, hits everybody within reach and shoves them back. Three hit points a swing, and her arm needs 0.7 s between swings; the cats do the rest. The SWING button on a touch screen; <kbd>B</kbd>, <kbd>Y</kbd> or the right bumper on a gamepad. |
+| <kbd>F</kbd> or <kbd>J</kbd> | **Swing** the wooden spoon. It comes round the whole of her, hits everybody within reach and shoves them back. Three hit points a swing, and her arm needs 0.7 s between swings; the cats do the rest. The SWING button on a touch screen; <kbd>Y</kbd> or the right bumper on a gamepad. |
+| <kbd>K</kbd> or <kbd>X</kbd> | **Jump**: about a tile and a bit, enough for a kerb, a step or a low wall. The JUMP button on a touch screen; <kbd>B</kbd> on a gamepad. |
 | <kbd>Space</kbd> or <kbd>Shift</kbd> | **Hurry**: hold it for a faster walk, until the meter runs dry (it refills when you let go). The HURRY button on a touch screen. The cats keep up. |
 | <kbd>Q</kbd> <kbd>E</kbd>, or drag with the right mouse button | Turn the view. Dragging up and down tilts it. |
 | Mouse wheel, or <kbd>+</kbd> <kbd>−</kbd> | Zoom. |
@@ -52,7 +53,7 @@ doesn't (`?renderer=webgl` pins it). Node 22.12 or later.
 
 ### The cats do the fighting
 
-Six cats start with her. They trot after her in a loose ring, and when
+Six cats start with her. They trot after her in a loose ring (and hop up kerbs when they get stuck on them), and when
 somebody comes near she doesn't have to do anything: the nearest foe each cat
 can see is the one it runs at, and it claws, over and over, until the foe is
 **shooed** (thrown clear, with a yelp).
