@@ -9,37 +9,48 @@ import { mergeCopies } from './placed.js';
 /**
  * What there is to pick up, as it looks:
  *
- * - likes, little red hearts lying about in lines — drawn in chunks of the
- *   map, each chunk redrawn when a like in it is collected;
+ * - likes, candies lying about in lines (the library's sweets: wrapped bonbons,
+ *   candy corn, lollipops, peppermints, gumdrops, candy canes, caramel apples) —
+ *   drawn in chunks of the map, each chunk redrawn when a like in it is collected;
  * - golden keys (the library's key), big, spinning, with a shaft of light
  *   going up from each so they can be seen across the city;
  * - strays, cats sitting about waiting to be taken in (until they are);
- * - rest stops (the stands are placed models, see `map.whetstone`): a
+ * - rest stops (the stands are placed models, see `map.krystal`): a
  *   painted pad in front of each, where her patience comes back.
  */
 
 const CHUNK = 16;
-const LIKE_SCALE = 2;
+
+/** The candies the likes are, each with how much bigger than sculpted it is drawn, and the wrappers (and gumdrops) it comes in. */
+const CANDIES = [['sweet', 1.8], ['candycorn', 1.8], ['lollipop', 1.5], ['peppermint', 2], ['gumdrop', 2], ['candycane', 1.4], ['caramelapple', 1.3], ['sweet', 1.8], ['gumdrop', 2]];
+const WRAPPERS = ['#ff3a7a', '#ffb02a', '#3acf5a', '#8a5aff', '#ff4a2a', '#2ac0ff', '#ffe03a'];
 
 export function createPickups(GFX, run) {
   const group = new GFX.Group();
   group.name = 'pickups';
-  // The likes are lit a little more than what's round them, so they can be seen in the dark.
+  // The candies are lit a little more than what's round them, so they can be seen in the dark.
   const lit = run.built?.light ?? (() => [1, 1, 1]);
   const light = (x, y, z) => lit(x, y, z).map((v) => Math.max(0.85, v * 1.2));
 
-  // Likes, by chunk.
+  // Likes, by chunk: each is one of the candies, the same one every time.
   const chunks = new Map();
   for (const [i, s] of run.likes.entries()) {
     const key = `${Math.floor(s.x / CHUNK)},${Math.floor(s.z / CHUNK)}`;
-    if (!chunks.has(key)) chunks.set(key, { seeds: [], mesh: null });
-    chunks.get(key).seeds.push({ s, angle: (i * 2.399) % (Math.PI * 2) });
+    if (!chunks.has(key)) chunks.set(key, { seeds: [], meshes: [] });
+    const [kind, scale] = CANDIES[(i * 5 + Math.floor(s.x)) % CANDIES.length];
+    chunks.get(key).seeds.push({ s, kind, scale, paint: WRAPPERS[(i * 3) % WRAPPERS.length], angle: (i * 2.399) % (Math.PI * 2) });
   }
   const drawChunk = (chunk) => {
-    if (chunk.mesh) group.remove(chunk.mesh);
-    const copies = chunk.seeds.filter(({ s }) => !s.got).map(({ s, angle }) => ({ x: s.x, y: s.y - 0.32 + 0.03 * LIKE_SCALE, z: s.z, angle, scale: LIKE_SCALE }));
-    chunk.mesh = copies.length ? mergeCopies(GFX, 'like', copies, light) : null;
-    if (chunk.mesh) group.add(chunk.mesh);
+    for (const mesh of chunk.meshes) group.remove(mesh);
+    // Each kind of candy in the chunk is one mesh.
+    const kinds = new Map();
+    for (const { s, kind, scale, paint, angle } of chunk.seeds) {
+      if (s.got) continue;
+      if (!kinds.has(kind)) kinds.set(kind, []);
+      kinds.get(kind).push({ x: s.x, y: s.y - 0.32 + 0.01, z: s.z, angle, scale, paint });
+    }
+    chunk.meshes = [...kinds].map(([kind, copies]) => mergeCopies(GFX, kind, copies, light));
+    for (const mesh of chunk.meshes) group.add(mesh);
   };
   for (const c of chunks.values()) drawChunk(c);
 
@@ -74,7 +85,7 @@ export function createPickups(GFX, run) {
     return { s, holder, model: null, phase: i * 1.9, on: false };
   });
 
-  // The whetstones' pads.
+  // The pads the krystals stand beside.
   const padKit = createKit(GFX);
   for (const p of run.stones) {
     const y = p.y;
@@ -82,7 +93,7 @@ export function createPickups(GFX, run) {
     padKit.cyl([p.x, y + 0.02, p.z], 0.5, 0.02, '#3a3e48', { segments: 32 });
     padKit.cyl([p.x, y + 0.03, p.z], 0.2, 0.02, '#aab2c2', { segments: 24 });
   }
-  if (!padKit.empty) group.add(padKit.build({ name: 'whetstone-pads' }));
+  if (!padKit.empty) group.add(padKit.build({ name: 'krystal-pads' }));
 
   return {
     group,

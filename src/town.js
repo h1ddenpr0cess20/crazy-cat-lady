@@ -28,7 +28,7 @@ import { TownMap } from './map.js';
  *   Meowtown  the middle, downtown: towers with cat videos on them, Meme
  *                 Square, the echo chamber, the ball pit, the catwalk (a
  *                 walkway in the air, to the end of it), and the catnip
- *                 farm, where the hearts are grown.
+ *                 farm, where the candy is grown.
  *   Zoomie Valley  east: the zoomie cycle, in hills — the peak of the
  *                 zoomies, the trough of naps, the slope of stretching, the
  *                 plateau of loafing — and the garage where she found the
@@ -341,7 +341,7 @@ function whiskerHeights(c) {
   house(c, 12, 25, 5, 5, walls[3], { door: 's' });
   house(c, 23, 25, 5, 5, walls[4], { door: 's' });
   c.paint(14, 11, 1, 1, 'concrete');
-  c.whetstone('Home', 20.5, 20.5);
+  c.krystal('Home', 20.5, 20.5);
   c.place('mailbox', 15.6, 10.6, { turn: 2 });
   c.place('tree', 26.5, 21, { scale: 1.1 });
   c.place('tree', 12, 21.5, { scale: 0.95, angle: 1 });
@@ -542,7 +542,7 @@ function kennelDistrict(c) {
   c.place('statue', 110.5, 54.5, { turn: 2 });
   for (const [x, z] of [[111, 40], [125, 40], [125, 53]]) c.place('tree', x, z, { scale: 1.05, angle: x });
   c.place('bench', 116, 39.6, { turn: 2 }).place('bench', 120, 55).place('bin', 118.2, 39.5, { scale: 0.7 });
-  c.whetstone('Kennel Square', 126.5, 46.5);
+  c.krystal('Kennel Square', 126.5, 46.5);
   c.likeLine(109, 46, 112, 46, 2).likeLine(123, 42, 123, 50, 4);
   placard(c, 117, 37.3, 'WHEN IN\nDOUBT,\nWALKIES.', { facing: 2, ...RED });
   placard(c, 113.5, 55.2, 'BONES:\nA WARNING', { facing: 0 });
@@ -637,7 +637,7 @@ function purrdue(c) {
 
   // The quad: the statue, the dorms, the trees.
   c.place('statue', 193, 40, { turn: 2 });
-  c.whetstone('The Quad', 188.5, 40.5);
+  c.krystal('The Quad', 188.5, 40.5);
   c.block(170, 74, 12, 7, CURB + 4.8, { wall: '#c8a888', facade: 'brick', base: CURB, door: 'n', lit: 0.6 });
   c.block(198, 72, 14, 8, CURB + 4.8, { wall: '#b8a090', facade: 'brick', base: CURB, door: 'n', lit: 0.6 });
   lamps(c, [167, 178, 189, 199, 210, 221].map((x) => [x, 45.6]), -Math.PI / 2);
@@ -657,7 +657,7 @@ function pound(c) {
   mesh(10.2, 163.4, 75.8, 163.6);
   mesh(10.2, 88.6, 10.4, 163.4);
   c.prop('gate', 40, 89, { w: 4 });
-  c.whetstone('Pound Gate', 46.5, 93.5);
+  c.krystal('Pound Gate', 46.5, 93.5);
   placard(c, 36, 90.6, 'THE POUND\nHONK IF YOU\'RE\nA CAT', { facing: 2, ...RED });
 
   /** A tank: solid as the cylinder it's drawn as, its roof something to stand on. */
@@ -773,7 +773,7 @@ function meowtown(c) {
   // Meme Square: the screens all round it, the billboard, the crowd.
   block(c, 107, 114, 23, 22, 'brick');
   c.gpu('Meme Square', 118.5, 125);
-  c.whetstone('Meme Square', 111.5, 131.5);
+  c.krystal('Meme Square', 111.5, 131.5);
   c.prop('billboard', 127.6, 125, { text: 'MEOW', tag: 'YOU HAVE BEEN MEOWED AT · 4.2K PURRS' });
   c.solid(127.2, CURB, 122.6, 128.0, CURB + 6.5, 127.4);
   for (const [x, z] of [[110, 117], [126, 117], [110, 133]]) c.place('tree', x, z, { scale: 1.1, angle: x });
@@ -891,7 +891,7 @@ function zoomieValley(c) {
   house(c, 188, 141, 6, 5, '#e8d8c0', { door: 'n', h: 2.4 });
   placard(c, 186.5, 139.4, 'CAT HOUSE\nWE SLEEP\n(ALL DAY)', { facing: 2 });
 
-  c.whetstone('Zoomie Valley', 165.5, 145.5);
+  c.krystal('Zoomie Valley', 165.5, 145.5);
   scatter(c, 'tree', 160, 128, 66, 36, 18, { seed: 31, surfaces: ['grass'], maxH: 3.5 });
   scatter(c, 'shrub', 160, 88, 66, 36, 30, { seed: 37, surfaces: ['grass'], maxH: 7 });
 }
@@ -940,7 +940,7 @@ function sardineBay(c) {
   c.deck(99.8, 171.8, 6.4, 7.4, 2.5, { colour: '#e8e4dc', roof: true });
   c.prop('sandbox', 100, 173, { w: 6, d: 5 });
   c.gpu('In the litter box', 103, 175.5);
-  c.whetstone('Sardine Bay', 96.5, 188.5);
+  c.krystal('Sardine Bay', 96.5, 188.5);
   placard(c, 110, 186.5, 'FISH\nSTRIKE\n(DAY 4)', { facing: 2, ...RED });
   placard(c, 114, 176, 'NO\nFISH\nWITHOUT\nCONSULTATION', { facing: 3 });
 
@@ -1038,7 +1038,7 @@ function kibbleWorks(c) {
   // The site office.
   c.prop('trailer', 128, 210, { w: 4, d: 2, y: 0 });
   c.solid(128, 0, 210, 132, 1.5, 212);
-  c.whetstone('Kibble Works Office', 134.5, 214.5);
+  c.krystal('Kibble Works Office', 134.5, 214.5);
 
   // The hockey stick: flat for a long way, then LINE GO UP.
   c.flat(140, 222, 16, 6, 0, { surface: 'metal' });
@@ -1231,7 +1231,7 @@ function furnish(c) {
   // Meowtown: hot dogs, served hot.
   stall(c, 124, 119.5, 'HOT DOGS', '#c8382c');
   stall(c, 113, 119.5, 'MEOWS (COLD)', '#2a5aa8');
-  stall(c, 139.5, 147.5, 'ORGANIC HEARTS', '#3a8a4a');
+  stall(c, 139.5, 147.5, 'ORGANIC CANDY', '#3a8a4a');
 
   // Sardine Bay: the cookie consent desk, parked cars, the café terrace, the festival, the beach.
   stall(c, 18, 184.5, 'FISH FINGERS', '#1a3aa0');

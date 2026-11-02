@@ -85,7 +85,6 @@ export const FOES = Object.freeze({
   philosopher: { model: 'mime', name: 'Mime', blurb: 'Trapped in an invisible box. Does not know the cats are in it too.', toughness: 4, power: 4, hype: 60, radius: 0.34, speed: 3.4, shout: '...' },
   postdoc: { model: 'archaeologist', name: 'Flea Collar Researcher', blurb: 'Thirty years digging into fleas. Still on the first flea.', toughness: 6, power: 6, hype: 80, radius: 0.37, speed: 3.6, shout: 'WHAT ABOUT THE FLEAS?!' },
   labrat: { model: 'rat', name: 'Rat', blurb: 'Out of the sewers with a crust. Will not be giving it back. Cats are interested.', toughness: 2, power: 2, hype: 40, radius: 0.28, speed: 3.6, shout: 'SQUEAK?!' },
-  cat: { model: 'cat-black', name: 'Rival Tomcat', blurb: 'The street\'s toughest alley cat. Does not like your cats. Hisses.', toughness: 3, power: 3, hype: 50, radius: 0.28, speed: 3.8, shout: 'HSSSSS!' },
   // The Pound, besides.
   pallbearer: { model: 'pallbearer', name: 'Undertaker', blurb: 'Carrying one corner of the coffin of the last goldfish. The other three are at the pub.', toughness: 5, power: 5, hype: 70, radius: 0.4, speed: 2.0, shout: 'MAKE WAY!' },
   prepper: { model: 'cowboy', name: 'Dog Prepper', blurb: 'A bunker, a year of dog biscuits and a plan for when the cats come. The plan is the biscuits.', toughness: 5, power: 5, hype: 70, radius: 0.37, speed: 3.6, shout: 'STOCK UP ON BISCUITS!' },

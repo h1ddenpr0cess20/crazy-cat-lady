@@ -85,7 +85,7 @@ export function createHud(root, { onStart, onNew }) {
 
     /**
      * The map, every frame: centred on the ball, turned to the camera's
-     * `yaw`, `zoom` tiles across, with the cars, the people, the whetstones and
+     * `yaw`, `zoom` tiles across, with the cars, the people, the krystals and
      * the golden GPUs not yet found in the districts it has been to.
      */
     minimap({ ball, yaw, cars, gpus, strays = [], stones, foes = [], seen, span = 56 }) {

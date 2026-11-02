@@ -15,7 +15,7 @@ the games before it:
 
 - **the engine** is Metrlol's, which is [Petroll](https://github.com/h1ddenpr0cess20/petroll)'s: the renderer, the physics, the tiled map builder, traffic, hazards, minimap and HUD. The map is Metrlol's, a city of nine parts, 256 tiles each way, re-signed and renamed for cats; like Metrlol's it is tested to be rollable (here, walkable) from end to end;
 - **the lady** is Nonna (`characters/nonna`) from the [madness-engine](https://github.com/h1ddenpr0cess20/madness-engine) library, walking about on the ball the physics rolls for her;
-- **the cats** are Catroller's: the six coats of `characters/cat` (Blaze, Nyx, Ghost, Jinx, Vex and Brutus), sculpted at the size of the house they came from and scaled here to about a fifth of a tile at the back, to the lady's three-quarters. They pounce on the first foe of a fight (`attack`) and swat at it after, stalk when they are close, crouch over a bin before they knock it over and bat it about (`play`), flinch when they are knocked (`hit`), hiss when she is hurt (`cast`), sit up and preen after a shoo or when she finds a key (`win`), prick their ears when somebody is about (`alert`), and sit, look round and, in the end, curl up (`sleep`) when there is nothing to do. The Rival Tomcat goes over on its side (`ko`) when it is shooed;
+- **the cats** are Catroller's: the six coats of `characters/cat` (Blaze, Nyx, Ghost, Jinx, Vex and Brutus), sculpted at the size of the house they came from and scaled here to about a fifth of a tile at the back, to the lady's three-quarters. They pounce on the first foe of a fight (`attack`) and swat at it after, stalk when they are close, crouch over a bin before they knock it over and bat it about (`play`), flinch when they are knocked (`hit`), hiss when she is hurt (`cast`), sit up and preen after a shoo or when she finds a key (`win`), prick their ears when somebody is about (`alert`), and sit, look round and, in the end, curl up (`sleep`) when there is nothing to do.
 - **the music** is Catroller's: a sneaky little jazz trio played live in Web Audio, the drums doubling up when the cats are at somebody;
 - **the golden keys** are the library's `key`.
 
@@ -68,14 +68,14 @@ can see is the one it runs at, and it claws, over and over, until the foe is
 
 - **Strays** are cats sitting about in ten places round the city (the pink dots on the map). Walk up to one and it **joins the pack**, up to 16 cats. Which strays you have taken in is kept between visits.
 - **Golden keys** are the 42 things to find, with a shaft of light going up from each. The map shows the ones in the parts of town you've been to.
-- **Hearts** are the little hearts lying about in lines. They are love, and worth nothing.
+- **Candy** lies about in lines: wrapped sweets, candy corn, lollipops, peppermints, gumdrops, candy canes and caramel apples, the library's `props/sweets`, each in the same place every time. It is a treat, and worth nothing.
 
 ### Staying in one piece
 
 She starts with 100 **patience**. Hard landings, cars, yarn reels rolling after
 her, the sprinklers coming up out of the floor and the people who get to her
 take it away (half as much as they would: she is a tough old bird). At nothing
-she is **flustered**, and she is back at the last **rest stop** she came to,
+she is **flustered**, and she is back at the last **rest stop** she came to (a fortune-teller's table with Krystal, the crystal ball, on it),
 with a sit down and a cup of tea. A can press coming down on her flusters her
 outright. The milk lake and the sea swallow her, and she's put back on the
 last firm ground. The cats come with her.
@@ -145,7 +145,7 @@ are new:
 | `src/audio.js` | Catroller's trio, and every sound effect, synthesised. |
 
 Some names in the code are Metrlol's still: the golden keys are `gpu`s and
-`gpus`, the rest stops are `whetstone`s and `stones`, the purrs are `cred`.
+`gpus`, the rest stops are `krystal`s (their saved-game field is still `stone`), the purrs are `cred`.
 
 | Script | |
 |---|---|

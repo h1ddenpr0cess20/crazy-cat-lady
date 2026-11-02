@@ -12,9 +12,9 @@
  */
 
 export const TABLES = Object.freeze({
-  'Whisker Heights': { postie: 4, oldtimer: 5, shopper: 2, lollipop: 2, barista: 2,  commune: 5, theorist: 4, scroller: 6, anarchist: 5, replyguy: 3, drunk: 1, yimby: 5, nimby: 4, folksinger: 3, dropout: 6, simulationist: 3, cyclist: 3, cat: 2, influencer: 2 },
+  'Whisker Heights': { postie: 4, oldtimer: 5, shopper: 2, lollipop: 2, barista: 2,  commune: 5, theorist: 4, scroller: 6, anarchist: 5, replyguy: 3, drunk: 1, yimby: 5, nimby: 4, folksinger: 3, dropout: 6, simulationist: 3, cyclist: 3, influencer: 2 },
   'The Kennel District': { lollipop: 5, postie: 4, oldtimer: 3, shopper: 3,  pauser: 15, doomer: 6, altruist: 7, purist: 5, forecaster: 4, rationalist: 6, longtermist: 3, researcher: 3, substacker: 2, farmer: 3, replyguy: 2, gatekeeper: 1, ethicist: 5, prompter: 5, shoggoth: 5, pallbearer: 2 },
-  'Purrdue University': { barista: 4, lollipop: 3, capoeira: 2,  rationalist: 5, researcher: 5, theorist: 4, purist: 3, longtermist: 2, forecaster: 2, gatekeeper: 1, podcaster: 1, professor: 6, philosopher: 4, postdoc: 5, labrat: 4, cat: 2, prompter: 2 },
+  'Purrdue University': { barista: 4, lollipop: 3, capoeira: 2,  rationalist: 5, researcher: 5, theorist: 4, purist: 3, longtermist: 2, forecaster: 2, gatekeeper: 1, podcaster: 1, professor: 6, philosopher: 4, postdoc: 5, labrat: 4, prompter: 2 },
   'The Pound': { lollipop: 1, oldtimer: 2,  pauser: 8, doomer: 6, forecaster: 3, researcher: 3, purist: 2, rationalist: 2, prepper: 7, pallbearer: 4, deadposter: 5 },
   'Meowtown': { barista: 6, shopper: 5, pizzaiolo: 5, flamenco: 3, souvenirs: 3, postie: 3, oldtimer: 2, beachvendor: 2,  replyguy: 13, farmer: 8, substacker: 7, thoughtleader: 3, gatekeeper: 2, scroller: 5, podcaster: 2, drunk: 1, influencer: 6, maincharacter: 4, screenshotter: 4, newsletter: 4, bird: 1, hottakes: 3, deadposter: 2, festivalbro: 2 },
   'Zoomie Valley': { barista: 3, beachvendor: 3, sumo: 3, ninja: 4, capoeira: 3, matador: 2, pizzaiolo: 2,  accelerationist: 9, vc: 5, podcaster: 3, thoughtleader: 4, founder: 6, recruiter: 3, cryptobro: 4, biohacker: 4, corgi: 3, festivalbro: 2 },

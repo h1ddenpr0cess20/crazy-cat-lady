@@ -100,7 +100,7 @@ export function createRun(GFX, { ball = createBall({ r: RADIUS }), map = createT
   return run;
 }
 
-/** Back to the last whetstone, the patience sharpened. */
+/** Back to the last krystal, her patience put right. */
 export function respawn(run) {
   const p = run.checkpoint;
   if (p) placeBall(run.ball, p.x, p.y + run.ball.r + 0.05, p.z);
@@ -271,7 +271,7 @@ export function stepRun(run, push, dt = STEP, { live = true, moving = true, boos
     if (run.map.isSafe(cx, cz)) run.safe = [cx + 0.5, cell.h[0] + ball.r, cz + 0.5];
   }
 
-  // Likes, golden GPUs, strays, whetstones.
+  // Likes, golden keys, strays, krystals.
   for (const s of run.likes) {
     if (s.got || Math.abs(s.x - ball.x) > 1 || Math.abs(s.z - ball.z) > 1) continue;
     if (Math.hypot(s.x - ball.x, s.y - ball.y, s.z - ball.z) < REACH.like) { s.got = true; out.picked.push(s); }
