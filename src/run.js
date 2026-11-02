@@ -1,11 +1,11 @@
-import { RADIUS } from 'madness-engine/heroes/ball';
+import { RADIUS } from 'madness-engine/heroes/mace';
 import { createCrowd } from './crowd.js';
 import { createHazards } from './hazards.js';
 import { SWING } from './claws.js';
 import { COATS, createPack, START } from './pack.js';
 import { buildMap, DEPTH } from './map.js';
 import { BREAK_SPEED, createBall, GRAVITY, placeBall, PUSH, stepBall, TOP_SPEED } from 'madness-engine/physics';
-import { surfaceOf } from 'madness-engine/textures/town/surfaces.metrlol';
+import { surfaceOf } from 'madness-engine/textures/town/surfaces';
 import { createTown } from './town.js';
 import { createTraffic } from './traffic.js';
 import { groundAxes } from 'madness-engine/views/town';
@@ -220,7 +220,8 @@ export function stepRun(run, push, dt = STEP, { live = true, moving = true, boos
     hurt(e.damage * HURT.foe, 'foe');
     out.knocks.push(e);
   }
-  // The cats: who they clawed, who they shooed, what they knocked over.
+  // The cats: who they clawed, who they shooed, what they knocked over. (What hurt her makes the idle ones hiss.)
+  if (out.hurt > 0) run.pack.alarm(run.time);
   const speed = Math.hypot(ball.vx, ball.vz);
   const cats = run.pack.step(dt, run.time, live && moving ? ball : null, speed, (f, cat, damage, dir, time) => run.crowd.claw(f, cat, damage, dir, time));
   out.claws = cats.claws;
@@ -292,6 +293,8 @@ export function stepRun(run, push, dt = STEP, { live = true, moving = true, boos
       run.patience = PATIENCE;
     }
   }
+  // A key, a new cat, a rest stop: the pack is pleased.
+  if (out.gpu || out.stray || out.sharpened) run.pack.cheer(run.time);
   const d = run.map.districtAt(ball.x, ball.z);
   if (d && d !== run.district) { run.district = d; out.district = d; }
   return out;

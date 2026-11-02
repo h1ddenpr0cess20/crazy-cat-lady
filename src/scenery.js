@@ -3,7 +3,7 @@ import { linearRGB } from 'madness-engine/color';
 import { createBuildings } from './buildings.js';
 import { createPlaced } from './placed.js';
 import { drawStructures, seams } from './structures.js';
-import { surfaceMaterial, wallMaterial } from 'madness-engine/textures/town/textures.metrlol';
+import { surfaceMaterial, wallMaterial } from 'madness-engine/textures/town/textures';
 
 /**
  * The world as it is drawn: the tiles (a mesh per surface for each square
@@ -232,7 +232,7 @@ function country(k, map) {
   k.cyl([tx, 13.8, tz], 3.2, 3.6, '#c8ccd2', { finish: 'shiny', segments: 28 });
   k.cone([tx, 16.6, tz], 3.4, 2, '#9aa0aa', { segments: 28 });
   k.cyl([tx, 13.8, tz], 3.22, 1.0, '#c8382c', { segments: 28, open: true });
-  // The power station that feeds the compute farm, out past the south-east corner: two chimneys, red lights up them.
+  // The power station that feeds the kibble works, out past the south-east corner: two chimneys, red lights up them.
   for (const [x, z, h] of [[W + 30, D + 30, 34], [W + 42, D + 22, 30]]) {
     k.cyl([x, h / 2, z], [1.2, 2.0], h, '#8a8f9a', { segments: 16 });
     for (let y = 6; y < h; y += 9) k.sphere([x, y, z - 1.8], 0.16, '#ff3020', { finish: 'glow' });

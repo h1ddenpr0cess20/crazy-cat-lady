@@ -1,6 +1,6 @@
 import { model } from './models/library.js';
 import { materialsOf } from 'madness-engine/models/legacy-bake';
-import { mountWheels } from 'madness-engine/scenery/vehicles.metrlol';
+import { mountWheels } from 'madness-engine/scenery/vehicles';
 
 /**
  * The traffic: cars and trucks driving round the roads of the

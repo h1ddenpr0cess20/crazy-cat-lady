@@ -100,7 +100,11 @@ export function createPickups(GFX, run) {
         }
         if (show && o.model && !o.on) { o.on = true; group.add(o.holder); }
         if (!show && o.on) { o.on = false; group.remove(o.holder); }
-        if (o.on) o.model.pose({ clip: Math.sin(time * 0.4 + o.phase) > 0.6 ? 'look' : 'sit', t: 0, time, seed: o.phase, pace: 0, speed: 1 });
+        if (o.on) {
+          // Waiting about to be taken in: mostly sitting, now and then looking round, or curled up asleep.
+          const s = Math.sin(time * 0.4 + o.phase);
+          o.model.pose({ clip: s > 0.6 ? 'look' : s < -0.8 ? 'sleep' : 'sit', t: 0, time, seed: o.phase, pace: 0, speed: 1 });
+        }
       }
       for (const o of golden) {
         o.holder.visible = !o.g.got;

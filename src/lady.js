@@ -3,7 +3,7 @@ import { CAST } from './cast/index.js';
 import { isBaked } from './cast/library.js';
 
 /**
- * The lady, drawn: Nonna (`characters/nonna.metrlol`, in her cardigan, glasses
+ * The lady, drawn: Nonna (`characters/nonna`, in her cardigan, glasses
  * on a chain and wooden spoon) walking about on the ball the physics rolls
  * for her. She turns to face where she is going, walks faster the faster she
  * goes, stands about when she stops, flinches when she is knocked, and

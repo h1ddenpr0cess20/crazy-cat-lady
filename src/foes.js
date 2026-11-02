@@ -11,7 +11,7 @@ import { createModel } from 'madness-engine/models/model';
  * are equally rude to all of it.
  *
  * `model` is who they are sculpted as (`cast/`, baked in the background as
- * the page loads; the cast is Metroll's, mostly in new clothes). How each
+ * the page loads; the cast is the engine's library, each in colours of their own: see `cast/looks.js`). How each
  * takes being clawed is the same for all (`claws.js`):
  *
  *   `toughness`  twice it is how much `hp` they have, when the cats claw them
@@ -24,28 +24,43 @@ import { createModel } from 'madness-engine/models/model';
  */
 
 export const FOES = Object.freeze({
-  // The Pause crowd, and the doomers.
+  // The town, and visitors: the engine's newer townsfolk, and people from further afield.
+  postie: { model: 'mailcarrier', name: 'Postie', blurb: 'Knows every dog on the round by name, and has the bites to show for most of them. Is not fond of cats either.', toughness: 4, power: 4, hype: 60, radius: 0.37, speed: 3.4, shout: 'SPECIAL DELIVERY! FOR THE DOG!' },
+  lollipop: { model: 'crossingguard', name: 'Crossing Guard', blurb: 'Stops all the traffic for the dogs, and for nothing else. The sign says STOP. The sign means you.', toughness: 5, power: 5, hype: 70, radius: 0.38, speed: 2.6, shout: 'STOP! DOGS CROSSING!' },
+  barista: { model: 'barista', name: 'Dog-Friendly Barista', blurb: 'Puppuccinos on the house. Oat milk only, for everybody else. The cats are staring at the oat milk.', toughness: 4, power: 4, hype: 60, radius: 0.37, speed: 3.2, shout: 'PUPPUCCINO FOR… ANYONE WITH A DOG?' },
+  oldtimer: { model: 'oldtimer', name: 'The Old Dog Man', blurb: 'Has walked the same dog by the same corner shop since it sold everything loose, and will say so.', toughness: 5, power: 4, hype: 60, radius: 0.36, speed: 2.2, shout: 'IN MY DAY THE CATS KNEW THEIR PLACE!' },
+  shopper: { model: 'shopper', name: 'Dog Food Shopper', blurb: 'A list, a trolley and eleven tins of the gravy kind. Will not be hurried. The trolley is on your foot.', toughness: 4, power: 4, hype: 50, radius: 0.37, speed: 2.8, shout: 'IS THIS THE EXPRESS LANE?!' },
+  matador: { model: 'matador', name: 'Matador', blurb: 'Has come to wave a red cape at something. The cats are not bulls. Technically.', toughness: 6, power: 6, hype: 90, radius: 0.37, speed: 4.0, shout: '¡OLÉ! ¡TORO! …¿GATO?' },
+  flamenco: { model: 'flamenco', name: 'Flamenco Dancer', blurb: 'Stamps. Claps. Stamps again. Considers the cats an audience, and the audience late.', toughness: 5, power: 5, hype: 70, radius: 0.4, speed: 3.8, shout: '¡OLÉ! ¡OLÉ!' },
+  beachvendor: { model: 'vendor', name: 'Beach Vendor', blurb: 'Up and down the sand all day with everything on a pole: hats, shades, and a rubber dog. The cats are looking at the fish on the pole.', toughness: 4, power: 4, hype: 60, radius: 0.4, speed: 3.4, shout: 'COLD DRINKS! HATS! DOGS!' },
+  capoeira: { model: 'capoeira', name: 'Capoeirista', blurb: 'The roda was on the beach. The beach is where the cats are. Kicks upside down, to music.', toughness: 5, power: 6, hype: 80, radius: 0.37, speed: 4.6, shout: 'AXÉ!' },
+  sumo: { model: 'sumo', name: 'Sumo Apprentice', blurb: 'Enormous, young and very polite. Bows to the cats. Cannot be shoved, and is sorry about that.', toughness: 8, power: 7, hype: 120, radius: 0.5, speed: 2.0, shout: 'HAKKEYOI!' },
+  gondolier: { model: 'gondolier', name: 'Gondolier', blurb: 'Has lost the canal. Rows anyway, on the pier, with great dignity and a very long oar.', toughness: 5, power: 6, hype: 70, radius: 0.38, speed: 2.6, shout: 'O SOLE MIO! MIND THE OAR!' },
+  pizzaiolo: { model: 'pizzaiolo', name: 'Pizza Chef', blurb: 'Flour on everything. Has anchovies, and is quite sure they are for the cats. They are not.', toughness: 5, power: 5, hype: 70, radius: 0.43, speed: 2.8, shout: 'MAMMA MIA! NOT THE DOUGH!' },
+  souvenirs: { model: 'hawker', name: 'Souvenir Seller', blurb: 'A tray of tiny dog statues, a smile that does not move, and a price that does. Haggle, or be haggled.', toughness: 4, power: 3, hype: 50, radius: 0.37, speed: 3.6, shout: 'GOOD PRICE! VERY GOOD PRICE!' },
+  ninja: { model: 'ninja', name: 'Theme-Park Ninja', blurb: 'Silent. Black. In the full sun, in the middle of the road. Throws leaflets for the park, not stars.', toughness: 5, power: 6, hype: 80, radius: 0.35, speed: 4.8, shout: '(SHHH. I AM NOT HERE.)' },
+  // The dog park crowd, and the neighbours.
   pauser: { model: 'pauser', name: 'Dog Park Activist', blurb: 'Holds a sign. The sign says WALKIES. Has been holding it since the cats moved in.', toughness: 4, power: 3, hype: 50, radius: 0.37, speed: 2.8, shout: 'WALKIES! WALKIES!' },
   doomer: { model: 'mourner', name: 'Allergic Neighbour', blurb: 'Sneezes at the sight of a cat. Sneezes at the thought of one. Dressed in black for the occasion.', toughness: 5, power: 5, hype: 70, radius: 0.41, speed: 2.2, shout: 'ACHOO! IT\'S HAPPENING!' },
   forecaster: { model: 'coroner', name: 'Weather Presenter', blurb: 'Predicts rain. Predicts hail. Predicts a lot of cats, accurately, for once.', toughness: 6, power: 6, hype: 80, radius: 0.37, speed: 3.0, shout: 'SEVERE CAT WARNING!' },
   rationalist: { model: 'cultist', name: 'Dog Walker', blurb: 'Eleven dogs on eleven leads, all tangled. Does not have a plan for the cats.', toughness: 5, power: 5, hype: 80, radius: 0.38, speed: 1.9, shout: 'HEEL! HEEL! HEEL!' },
   purist: { model: 'purist', name: 'Kennel Club Judge', blurb: 'Will tell you which of your cats is not a real pedigree. All of them.', toughness: 6, power: 6, hype: 90, radius: 0.37, speed: 2.8, shout: 'THAT\'S NOT A BREED!' },
   researcher: { model: 'engineer', name: 'Vet Student', blurb: 'Has found fourteen things wrong with your cats, and a fifteenth on the way.', toughness: 5, power: 6, hype: 70, radius: 0.41, speed: 3.0, shout: 'WHEN WAS THE LAST CHECK-UP?' },
-  // The effective altruists.
+  // The sporty ones.
   altruist: { model: 'hxckid', name: 'Jogger', blurb: 'Does ten miles before breakfast. Will tell you about the ten miles.', toughness: 4, power: 4, hype: 60, radius: 0.35, speed: 4.4, shout: 'ON YOUR LEFT!' },
   longtermist: { model: 'wizard', name: 'Bird Watcher', blurb: 'Cares deeply about eight trillion sparrows. Not about your cats, who are near them.', toughness: 5, power: 6, hype: 90, radius: 0.38, speed: 2.0, shout: 'THE SPARROWS!' },
-  // The commune and the theory.
+  // The garden and the poetry.
   anarchist: { model: 'punk', name: 'Squirrel Rights Punk', blurb: 'Against all hierarchy, except squirrels. Squirrels are in charge.', toughness: 5, power: 6, hype: 70, radius: 0.37, speed: 4.0, shout: 'SQUIRRELS FIRST!' },
   commune: { model: 'hippie', name: 'Garden Club Member', blurb: 'A meeting about the begonias. The begonias are the cats\' toilet now.', toughness: 4, power: 3, hype: 50, radius: 0.36, speed: 2.6, shout: 'NOT THE BEGONIAS!' },
   theorist: { model: 'poet', name: 'Poet Laureate of Dogs', blurb: 'About to read an ode to a Labrador. At length. In rhyming couplets.', toughness: 4, power: 4, hype: 60, radius: 0.36, speed: 2.8, shout: 'OH, FAITHFUL HOUND!' },
   scroller: { model: 'emo', name: 'Cat Video Addict', blurb: 'Fine. Totally fine. Has watched a thousand cats online. Is afraid of real ones.', toughness: 3, power: 3, hype: 50, radius: 0.35, speed: 2.2, shout: 'I ONLY WATCH THEM!' },
-  // Brussels.
+  // The council.
   eurocrat: { model: 'eurocrat', name: 'Council Inspector', blurb: 'There is a form for your cats. There is always a form. The form is in a form.', toughness: 5, power: 5, hype: 70, radius: 0.37, speed: 3.0, shout: 'HOW MANY CATS IS THAT?!' },
   striker: { model: 'foreman', name: 'Bin Man', blurb: 'On strike since the bins. Will not be moved. Neither will the bins.', toughness: 6, power: 6, hype: 90, radius: 0.4, speed: 2.8, shout: 'NOT MY BINS!' },
   commuter: { model: 'blader', name: 'Scooter Commuter', blurb: 'Has right of way. The pavement is wherever you are standing.', toughness: 5, power: 5, hype: 70, radius: 0.4, speed: 5.0, shout: 'DING DING!' },
   raver: { model: 'raver', name: 'Night-Shift Raver', blurb: 'Dancing since Friday. It is Monday. The cats were not invited.', toughness: 3, power: 3, hype: 50, radius: 0.35, speed: 4.2, shout: 'WHO LET THE CATS IN?!' },
   doorman: { model: 'clubber', name: 'Bouncer', blurb: 'Your name is not on the list. Neither are the cats\'. The policy is no.', toughness: 9, power: 9, hype: 150, radius: 0.5, speed: 2.4, shout: 'NO CATS.' },
-  // The feed.
+  // The online ones.
   replyguy: { model: 'critic', name: 'Know-It-All', blurb: 'Has not met your cats. Knows all about them anyway. Has told you eleven times.', toughness: 4, power: 4, hype: 60, radius: 0.35, speed: 3.6, shout: 'ACTUALLY, CATS ARE—' },
   substacker: { model: 'zinekid', name: 'Pet Columnist', blurb: 'Eleven thousand words on why dogs are better. Paywall after the first paragraph.', toughness: 4, power: 3, hype: 50, radius: 0.34, speed: 3.6, shout: 'SUBSCRIBE FOR DOGS!' },
   farmer: { model: 'streetteam', name: 'Flyer Handler', blurb: 'Free stickers. Free flyers. A free puppy, if you listen to the whole sentence.', toughness: 4, power: 3, hype: 50, radius: 0.37, speed: 4.0, shout: 'FREE PUPPY!' },
@@ -54,50 +69,50 @@ export const FOES = Object.freeze({
   podcaster: { model: 'dj', name: 'Radio Phone-In Host', blurb: 'Has interviewed every dog in town. Three hours each. Will interview you.', toughness: 3, power: 3, hype: 50, radius: 0.37, speed: 3.0, shout: 'CALLER, YOU\'RE ON AIR!' },
   vc: { model: 'promoter', name: 'Pet Insurer', blurb: 'Will cover your cats. Will not read the claim. Has a podcast about it.', toughness: 5, power: 4, hype: 60, radius: 0.37, speed: 3.6, shout: 'IT\'S PRE-EXISTING!' },
   gatekeeper: { model: 'gatekeeper', name: 'Neighbourhood Watch', blurb: 'Has been on this street since 1979. Will explain why your cats are not allowed.', toughness: 7, power: 7, hype: 110, radius: 0.43, speed: 2.4, shout: 'I\'M CALLING THE COUNCIL!' },
-  // Portland Heights, besides.
+  // Whisker Heights, besides.
   yimby: { model: 'hipster', name: 'Dog Day-Care Owner', blurb: 'Wants a dog park on every corner. Has a tote bag about it, and a spreadsheet of where.', toughness: 5, power: 5, hype: 70, radius: 0.37, speed: 3.0, shout: 'A DOG PARK HERE!' },
   nimby: { model: 'neighbour', name: 'Grumpy Neighbour', blurb: 'Loves animals. In principle. Over the fence, in his bathrobe, at eleven at night.', toughness: 5, power: 5, hype: 70, radius: 0.37, speed: 3.4, shout: 'YOUR CATS ARE ON MY LAWN!' },
   folksinger: { model: 'folkie', name: 'Busker', blurb: 'Has written a song about a lost dog. Eleven verses. Your cats come in at verse nine.', toughness: 4, power: 4, hype: 50, radius: 0.37, speed: 3.0, shout: 'WHERE HAS MY DOGGY GONE?' },
   dropout: { model: 'skater', name: 'Dognapper in Training', blurb: 'Left school at nineteen to start a dog-walking app. It is a leash. Has a board.', toughness: 4, power: 5, hype: 60, radius: 0.38, speed: 5.0, shout: 'UBER FOR DOGS!' },
   simulationist: { model: 'stoner', name: 'Dazed Stoner', blurb: 'None of this is real. Has checked. Twice. The cats seemed fairly real.', toughness: 4, power: 4, hype: 50, radius: 0.4, speed: 1.4, shout: 'WHOA. CATS.' },
   cyclist: { model: 'cyclist', name: 'Cyclist', blurb: 'The bike lane is a human right. So is the pavement, apparently. Baguette.', toughness: 5, power: 6, hype: 70, radius: 0.42, speed: 5.2, shout: 'BIKE LANE!' },
-  // The Alignment District, besides.
+  // The Kennel District, besides.
   ethicist: { model: 'medic', name: 'Animal Welfare Officer', blurb: 'Here to count your cats. Has a clipboard the size of a suitcase.', toughness: 5, power: 4, hype: 60, radius: 0.38, speed: 4.4, shout: 'HOW MANY ARE THERE?!' },
   prompter: { model: 'scenekid', name: 'Pet Groomer', blurb: 'Paid to brush poodles. Has a fringe, and a pair of scissors.', toughness: 3, power: 3, hype: 50, radius: 0.34, speed: 3.8, shout: 'JUST A LITTLE TRIM!' },
   shoggoth: { model: 'goth', name: 'Goth Dog Owner', blurb: 'Walks a very large, very black dog. Thinks you don\'t get it. You don\'t.', toughness: 5, power: 5, hype: 70, radius: 0.39, speed: 2.6, shout: 'MY DOG IS A WOLF!' },
-  // The Ivory Tower.
+  // Purrdue University.
   professor: { model: 'gent', name: 'Dog Professor', blurb: 'Has not changed an opinion on dogs since 1994. Has written four books about why. Brolly.', toughness: 4, power: 4, hype: 60, radius: 0.36, speed: 3.2, shout: 'AS I WROTE IN CHAPTER FOUR—' },
   philosopher: { model: 'mime', name: 'Mime', blurb: 'Trapped in an invisible box. Does not know the cats are in it too.', toughness: 4, power: 4, hype: 60, radius: 0.34, speed: 3.4, shout: '...' },
   postdoc: { model: 'archaeologist', name: 'Flea Collar Researcher', blurb: 'Thirty years digging into fleas. Still on the first flea.', toughness: 6, power: 6, hype: 80, radius: 0.37, speed: 3.6, shout: 'WHAT ABOUT THE FLEAS?!' },
   labrat: { model: 'rat', name: 'Rat', blurb: 'Out of the sewers with a crust. Will not be giving it back. Cats are interested.', toughness: 2, power: 2, hype: 40, radius: 0.28, speed: 3.6, shout: 'SQUEAK?!' },
-  cat: { model: 'blackcat', name: 'Rival Tomcat', blurb: 'The street\'s toughest alley cat. Does not like your cats. Hisses.', toughness: 3, power: 3, hype: 50, radius: 0.28, speed: 3.8, shout: 'HSSSSS!' },
-  // The Pause Compound, besides.
+  cat: { model: 'cat-black', name: 'Rival Tomcat', blurb: 'The street\'s toughest alley cat. Does not like your cats. Hisses.', toughness: 3, power: 3, hype: 50, radius: 0.28, speed: 3.8, shout: 'HSSSSS!' },
+  // The Pound, besides.
   pallbearer: { model: 'pallbearer', name: 'Undertaker', blurb: 'Carrying one corner of the coffin of the last goldfish. The other three are at the pub.', toughness: 5, power: 5, hype: 70, radius: 0.4, speed: 2.0, shout: 'MAKE WAY!' },
   prepper: { model: 'cowboy', name: 'Dog Prepper', blurb: 'A bunker, a year of dog biscuits and a plan for when the cats come. The plan is the biscuits.', toughness: 5, power: 5, hype: 70, radius: 0.37, speed: 3.6, shout: 'STOCK UP ON BISCUITS!' },
   deadposter: { model: 'zombie', name: 'Sleepwalker', blurb: 'Not awake since 2019. Is walking toward the cats anyway.', toughness: 6, power: 6, hype: 80, radius: 0.39, speed: 1.8, shout: 'ZZZ... WALKIES...' },
-  // The Timeline, besides.
+  // Meowtown, besides.
   influencer: { model: 'influencer', name: 'Pet Influencer', blurb: 'Ten tricks that will make your dog famous. Number seven will shock you. The ring light is on.', toughness: 4, power: 4, hype: 60, radius: 0.34, speed: 3.6, shout: 'SMASH THAT LIKE!' },
   maincharacter: { model: 'phone', name: 'Dog Vlogger', blurb: 'Filming it. Filming you. Filming the cats chasing you, for the content.', toughness: 4, power: 4, hype: 60, radius: 0.37, speed: 2.2, shout: 'THIS IS GOING VIRAL!' },
   screenshotter: { model: 'paparazzo', name: 'Photographer', blurb: 'Will have a picture of your cats, in court. Has a long lens and a longer grudge.', toughness: 4, power: 4, hype: 60, radius: 0.37, speed: 3.4, shout: 'SMILE! FOR EVIDENCE!' },
   newsletter: { model: 'newsie', name: 'Paper Boy', blurb: 'Extra! Extra! Cat lady has too many cats, in a paper, behind a paywall.', toughness: 3, power: 3, hype: 50, radius: 0.29, speed: 4.6, shout: 'EXTRA! EXTRA!' },
   bird: { model: 'mascot', name: 'The Old Bird', blurb: 'Mascot of a pet shop that closed. Nobody told the bird. Hugs. A bird, near cats.', toughness: 9, power: 3, hype: 120, radius: 0.61, speed: 2.4, shout: 'TWEET? TWEET?!' },
   hottakes: { model: 'hotdog', name: 'Hot Dog Vendor', blurb: 'Hot dogs! Get your hot dogs! Mustard, ketchup, or both? Cats are drawn to the smell.', toughness: 5, power: 5, hype: 70, radius: 0.42, speed: 2.8, shout: 'HOT DOGS! GET \'EM HOT!' },
-  // Hype Valley.
+  // Zoomie Valley.
   founder: { model: 'suit', name: 'Pet Food Founder', blurb: 'Raising a seed round for premium kibble. Pre-revenue. Pre-product. Pre-cat.', toughness: 6, power: 6, hype: 90, radius: 0.37, speed: 3.2, shout: 'WE\'RE RAISING!' },
   recruiter: { model: 'agent', name: 'Dog Breeder', blurb: 'Has an exciting opportunity for you. It is a litter of seven puppies. There is a waiting list.', toughness: 6, power: 6, hype: 80, radius: 0.37, speed: 3.2, shout: 'ARE YOU OPEN TO A PUPPY?' },
   cryptobro: { model: 'floridaman', name: 'Dogecoin Bro', blurb: 'Pivoted to dogs from crypto, from NFTs, from a timeshare. Has a mullet from each.', toughness: 5, power: 5, hype: 70, radius: 0.4, speed: 3.4, shout: 'TO THE MOON, DOGE!' },
   biohacker: { model: 'runner', name: 'Marathon Dog Walker', blurb: 'Runs a marathon a day with a dog on a lead. Takes a hundred supplements. Has a newspaper.', toughness: 4, power: 4, hype: 60, radius: 0.36, speed: 5.4, shout: 'RUN, BUDDY, RUN!' },
   corgi: { model: 'corgi', name: 'Corgi', blurb: 'Short legs, big opinions. Low, fast, unimpressed. Takes orders from nobody.', toughness: 3, power: 3, hype: 50, radius: 0.32, speed: 3.6, shout: 'WOOF. (CAT. CAT. CAT.)' },
   billionaire: { model: 'mogul', name: 'The Pet Food Baron', blurb: 'Owns the kibble, the tins and the rights to every cat\'s dinner. Would like to buy your pack.', toughness: 10, power: 12, hype: 900, radius: 1.04, speed: 1.6, shout: 'EVERY CAT HAS ITS PRICE!', boss: true, hp: 60 },
-  // Brussels-sur-Mer, besides.
+  // Sardine Bay, besides.
   dpo: { model: 'cop', name: 'Animal Control Officer', blurb: 'Here about your cats. All of them. Has a badge, a net, and a form for the net.', toughness: 6, power: 6, hype: 80, radius: 0.37, speed: 3.4, shout: 'THAT IS TOO MANY CATS, MA\'AM!' },
   waiter: { model: 'waiter', name: 'Fishmonger (on Strike)', blurb: 'On strike since the haddock. Will not sell you a sardine. Cats are staring.', toughness: 5, power: 5, hype: 70, radius: 0.36, speed: 4.0, shout: 'THE FISH IS OFF!' },
   cabbie: { model: 'cabbie', name: 'Cab Driver', blurb: 'Twenty years behind the wheel. Has never had a cat in the cab. Is not starting.', toughness: 5, power: 6, hype: 70, radius: 0.38, speed: 3.6, shout: 'NO CATS IN THE CAB!' },
   tourist: { model: 'tourist', name: 'Tourist', blurb: 'Came for the sights. Has found a lady with eleven cats. The map has a form on the back.', toughness: 4, power: 3, hype: 50, radius: 0.39, speed: 2.4, shout: 'WHERE IS THE CASTLE?' },
-  nonna: { model: 'nonna', name: 'Rival Cat Lady', blurb: 'Has a different cardigan. Has a different cat. Has a wooden spoon. Is tougher than you.', toughness: 8, power: 8, hype: 120, radius: 0.36, speed: 2.4, shout: 'MY CATS ARE BETTER!' },
+  nonna: { model: 'rival', name: 'Rival Cat Lady', blurb: 'Has a different cardigan. Has a different cat. Has a wooden spoon. Is tougher than you.', toughness: 8, power: 8, hype: 120, radius: 0.36, speed: 2.4, shout: 'MY CATS ARE BETTER!' },
   lifeguard: { model: 'lifeguard', name: 'Lifeguard', blurb: 'Bathing is forbidden. Cats are forbidden. Will save you from both.', toughness: 7, power: 7, hype: 100, radius: 0.4, speed: 4.2, shout: 'NO CATS IN THE POOL!' },
   surfer: { model: 'surfer', name: 'Surfer', blurb: 'Riding the wave. The wave is a cat stampede. Stoked.', toughness: 5, power: 5, hype: 70, radius: 0.37, speed: 3.8, shout: 'RIDE THE WAVE, BRO!' },
-  // The Compute Farm.
+  // The Kibble Works.
   technician: { model: 'welder', name: 'Kibble Technician', blurb: 'Keeps the ovens hot. Has a mask. Has seen things in the kibble hopper.', toughness: 5, power: 5, hype: 70, radius: 0.4, speed: 2.4, shout: 'MIND THE OVENS!' },
   oncall: { model: 'soundguy', name: 'Night Watchman', blurb: 'Paged at three in the morning. Check. One. Two. Is it plugged in?', toughness: 5, power: 5, hype: 70, radius: 0.37, speed: 3.0, shout: 'WHO GOES THERE?!' },
   wrangler: { model: 'roadie', name: 'Yarn Wrangler', blurb: 'Huge. Bald. Carries a spool of yarn like a flight case. Resents everything.', toughness: 8, power: 8, hype: 130, radius: 0.47, speed: 2.4, shout: 'COMING THROUGH!' },

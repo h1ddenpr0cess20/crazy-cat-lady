@@ -49,6 +49,34 @@ const CLAW = (kind) => (kind.size > 1.2 ? 2 : 1);
 /** The cast names of every coat, for the library to bake. */
 export const CAT_MODELS = COATS.map((c) => `cat-${c}`);
 
+/** The clips that play once from a moment (they are given how far in), not on a loop. */
+const CLIPS_BY_AGE = new Set(['attack', 'swat', 'hit', 'cast', 'win']);
+
+/**
+ * What a cat is doing, as the clip it plays and how far into it: flinching when it has been knocked; pouncing on a foe
+ * and swatting at it; hissing when she was hurt; batting at what it has knocked over; crouched over what it is about to;
+ * running, stalking (near its target) or walking; and standing about, pleased with itself after a shoo or a cheer, ears up
+ * with somebody near, looking round, sitting and, in the end, asleep.
+ */
+export function chooseClip(c, time) {
+  const age = (when) => time - when;
+  const pace = c.pace ?? 0, still = c.still ?? 0;
+  if (age(c.hurt) < 0.5) return { clip: 'hit', t: age(c.hurt) };
+  // A claw lands every CLAW_EVERY: the pounce is played from its spring, so that it lands as the claw does.
+  if (age(c.lastClaw) < 0.55) return c.fresh ? { clip: 'attack', t: 0.2 + age(c.lastClaw) } : { clip: 'swat', t: age(c.lastClaw) };
+  if (age(c.hiss) >= 0 && age(c.hiss) < 1 && !c.target && pace < 1.5) return { clip: 'cast', t: age(c.hiss) };
+  if (age(c.played) < 1.4 && pace < 0.8) return { clip: 'play', t: age(c.played) };
+  if (c.crouching && pace < 2) return { clip: 'crouch', t: 0 };
+  if (pace > 3.2) return { clip: 'run', t: 0 };
+  if (pace > 0.3) return { clip: c.closing < 2.5 ? 'stalk' : 'walk', t: 0 };
+  if ((age(c.won) >= 0 && age(c.won) < 1.6) || (age(c.cheered) >= 0 && age(c.cheered) < 1.8)) return { clip: 'win', t: Math.min(age(c.won), age(c.cheered)) };
+  if (c.wary && still > 0.3) return { clip: 'alert', t: 0 };
+  if (still > 14) return { clip: 'sleep', t: 0 };
+  if (still > 2.5) return { clip: 'sit', t: 0 };
+  if (still > 1) return { clip: Math.sin(time * 0.5 + c.i * 2) > 0.2 ? 'look' : 'idle', t: 0 };
+  return { clip: 'idle', t: 0 };
+}
+
 export function createPack(GFX, map, world, { killY, foes = [], props = [], start = START } = {}) {
   const group = new GFX.Group();
   group.name = 'pack';
@@ -69,6 +97,9 @@ export function createPack(GFX, map, world, { killY, foes = [], props = [], star
       i, coat, kind, look, body, ball, claw: CLAW(kind),
       heading: 0, stuck: 0, hop: 0, target: null, prop: null, cooldown: i * 0.1, seeking: 0, struck: -9, still: 0, mischief: 3 + i * 2.1,
       clip: 'idle', since: 0,
+      // When it last clawed (and whether that began a fight), got a shoo, knocked something over, took a knock, was
+      // told to hiss or to cheer; whether it is wary of somebody near her, how near its target or its prop is.
+      lastClaw: -9, fresh: false, won: -9, played: -9, hurt: -9, hiss: -9, cheered: -9, wary: false, closing: Infinity, crouching: false, pvx: 0, pvy: 0, pvz: 0,
       get built() { return model !== null; },
       build() {
         if (!model && isBaked(`cat-${coat}`, 0.5)) {
@@ -130,6 +161,16 @@ export function createPack(GFX, map, world, { killY, foes = [], props = [], star
       for (const c of cats) { place(c, x, z); c.target = null; c.prop = null; }
     },
 
+    /** Something has hurt her: the cats that aren't after anybody hiss (a staggered moment each). */
+    alarm(time) {
+      for (const c of cats) if (!c.target) c.hiss = time + (c.i % 5) * 0.08;
+    },
+
+    /** Something to be pleased about (a golden key, a stray, a rest stop): the cats sit up and preen a moment. */
+    cheer(time) {
+      for (const c of cats) c.cheered = time + (c.i % 5) * 0.1;
+    },
+
     /** One more cat joins, in `coat`, up to the most; returns it. */
     grow(coat) {
       if (cats.length >= MOST) return null;
@@ -160,6 +201,8 @@ export function createPack(GFX, map, world, { killY, foes = [], props = [], star
         if (c.seeking <= 0) {
           c.seeking = LOOK + (c.i % 4) * 0.02;
           c.target = hunted(c, lady);
+          // Not after anybody, but somebody is about: ears up.
+          c.wary = !c.target && foes.some((f) => live(f) && Math.abs(f.ball.x - lady.x) < 12 && Math.abs(f.ball.z - lady.z) < 12);
           if (!c.target && c.mischief <= 0 && !c.prop) {
             c.prop = mischief(lady);
             c.mischief = MISCHIEF[0] + ((c.i * 3.7) % (MISCHIEF[1] - MISCHIEF[0]));
@@ -171,19 +214,25 @@ export function createPack(GFX, map, world, { killY, foes = [], props = [], star
         if (c.prop && c.prop.broken) c.prop = null;
 
         let ax = 0, az = 0, top = c.kind.speed, aim = null, attack = false;
+        c.closing = Infinity;
+        c.crouching = false;
         if (c.target) {
           const f = c.target.ball;
           const dx = f.x - b.x, dz = f.z - b.z, d = Math.hypot(dx, dz) || 1e-6;
           const reach = f.r + b.r + 0.12;
           aim = [dx / d, dz / d];
           top = c.kind.speed * 1.5;
+          c.closing = d;
           if (d > reach) { ax = aim[0]; az = aim[1]; } else attack = true;
         } else if (c.prop) {
           const dx = c.prop.x - b.x, dz = c.prop.z - b.z, d = Math.hypot(dx, dz) || 1e-6;
           aim = [dx / d, dz / d];
           top = c.kind.speed * 1.5;
+          // Down low and eyeing it, the last stretch.
+          c.crouching = d < c.prop.r + b.r + 0.9;
           if (d > c.prop.r + b.r + 0.1) { ax = aim[0]; az = aim[1]; } else {
             out.knocks.push({ cat: c, prop: c.prop });
+            c.played = time;
             c.prop = null;
           }
         } else {
@@ -223,6 +272,9 @@ export function createPack(GFX, map, world, { killY, foes = [], props = [], star
           [ax, az] = [ax * cs - az * sn, ax * sn + az * cs];
         }
         stepBall(b, world, ax, az, dt, { push: PUSH * (toLady > 4 ? 2.4 : 0.9), topSpeed: Math.min(top, 26), drag: 0.4 });
+        // A hard knock (shoved by a car or a foe) or a long drop: it flinches (nothing hurts it).
+        if ((Math.hypot(b.vx - c.pvx, b.vz - c.pvz) > 10 || (c.pvy < -12 && b.grounded)) && time - c.hurt > 1) c.hurt = time;
+        c.pvx = b.vx; c.pvy = b.vy; c.pvz = b.vz;
         // Never on top of each other, or of her.
         for (const o of cats) {
           if (o.i <= c.i) continue;
@@ -241,10 +293,13 @@ export function createPack(GFX, map, world, { killY, foes = [], props = [], star
         if (attack && c.cooldown <= 0) {
           const f = c.target;
           c.cooldown = CLAW_EVERY + (c.i % 3) * 0.05;
+          // The first claw of a fight is a pounce; the ones after are swats.
+          c.fresh = time - c.lastClaw > 1.2;
+          c.lastClaw = time;
           c.struck = time;
           const e = claw(f, c, c.claw, aim, time);
           out.claws.push({ cat: c, foe: f });
-          if (e) { out.shoos.push(e); c.target = null; }
+          if (e) { out.shoos.push(e); c.target = null; c.won = time; }
         }
       }
       return out;
@@ -262,15 +317,10 @@ export function createPack(GFX, map, world, { killY, foes = [], props = [], star
         let d = c.heading - c.body.rotation.y;
         d = Math.atan2(Math.sin(d), Math.cos(d));
         c.body.rotation.y += d * Math.min(1, dt * 10);
-        const swat = time - c.struck;
-        let clip = 'idle', t = 0;
-        if (swat < 0.45) { clip = 'swat'; t = swat; }
-        else if (c.pace > 3.2) clip = 'run';
-        else if (c.pace > 0.3) clip = 'walk';
-        else if (c.still > 2.5) clip = 'sit';
+        const { clip, t } = chooseClip(c, time);
         if (clip !== c.clip) { c.clip = clip; c.since = time; }
         if (view && frame % 2 && Math.hypot(b.x - view.at.x, b.z - view.at.z) > 14) continue;
-        c.pose({ clip, t: clip === 'swat' ? t : time - c.since, time, seed: c.i * 1.7, pace: c.pace ?? 0, speed: 1 });
+        c.pose({ clip, t: CLIPS_BY_AGE.has(clip) ? t : time - c.since, time, seed: c.i * 1.7, pace: c.pace ?? 0, speed: 1 });
       }
     },
   };

@@ -1,7 +1,8 @@
 import { CIVIC } from 'madness-engine/scenery/civic';
 import { DISCOURSE } from 'madness-engine/scenery/discourse';
-import { STREET } from 'madness-engine/scenery/street.metrlol';
-import { truckwheel, VEHICLES, wheel } from 'madness-engine/scenery/vehicles.metrlol';
+import { STREET } from 'madness-engine/scenery/street';
+import { scooter } from 'madness-engine/scenery/street.metrlol';
+import { truckwheel, VEHICLES, wheel } from 'madness-engine/scenery/vehicles';
 
 /** How much coarser than sculpted a model is meshed, by name: the seeds, a couple of hundred of them and tiny on screen. */
 const COARSE = { like: 1.8 };
@@ -15,7 +16,7 @@ export const FAR = 2.2;
  * whose wheels (`wheel`, `truckwheel`) go round.
  */
 export const MODELS = Object.fromEntries([
-  ...Object.entries({ ...VEHICLES, ...STREET, ...CIVIC, ...DISCOURSE, wheel, truckwheel }).map(([name, def]) => [name, { coarse: COARSE[name] ?? 1, ...def }]),
+  ...Object.entries({ ...VEHICLES, ...STREET, scooter, ...CIVIC, ...DISCOURSE, wheel, truckwheel }).map(([name, def]) => [name, { coarse: COARSE[name] ?? 1, ...def }]),
   ...Object.entries(VEHICLES).map(([name, def]) => [`${name}-far`, { ...def, name: `${def.name}-far`, coarse: FAR }]),
   ...Object.values(VEHICLES).map((def) => [def.body.name, def.body]),
 ]);
