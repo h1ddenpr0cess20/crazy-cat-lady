@@ -16,7 +16,7 @@ export const QUIPS = Object.freeze({
   fell: ['Oops. Knees, don\'t fail me now.', 'That\'s a long way down for a lady my age.', 'Whoops-a-daisy.', 'I\'m fine. I\'m fine. Where\'s my tea?'],
   flustered: ['Oh, I\'m all in a tizzy. A cup of tea, and I\'ll be fine.', 'Flustered! Quite flustered. Back to my armchair.', 'I need a sit down. And a biscuit.', 'Not at my age. Not before tea.'],
   sharpened: ['Ahh. A sit down. Tea, and a biscuit.', 'Feet up. The cats are on my lap. Perfect.', 'A little rest. Right as rain.', 'Patience restored. Mostly.'],
-  like: ['A little love. Lovely.', 'Oh, a heart. For me?', 'The cats are purring. That\'s something.'],
+  like: ['A little sweet. Lovely.', 'Oh, a candy. For me?', 'The cats are purring. That\'s something.'],
   gpu: ['A golden key! Whatever could it open? Every cat in the street wants to know.', 'A key. I do love a key. The cats love a key more.', 'Gold. Shiny. The cats have already tried to eat it.', 'One more key for the jar.', 'Found one! Don\'t tell the dogs.'],
   stray: ['A new friend! Come along, dear. There\'s tuna.', 'Oh, who\'s this? You\'re coming home with us.', 'Another one? I couldn\'t possibly. Well, perhaps.', 'There\'s always room for one more.', 'It\'s a lovely little thing. And it\'s mine now.'],
   combo: ['They\'re on a roll. A hairball roll.', 'Look at them go.', 'That\'s a lot of people being wrong about cats at once.', 'My little darlings!'],

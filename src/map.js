@@ -2,7 +2,7 @@ import { World } from 'madness-engine/physics';
 import { MODELS } from './models/index.js';
 import { BREAKABLE } from './breakables.js';
 import { FACADES } from 'madness-engine/textures/town/paint';
-import { surfaceOf } from 'madness-engine/textures/town/surfaces.metrlol';
+import { surfaceOf } from 'madness-engine/textures/town/surfaces';
 import { linearRGB } from 'madness-engine/color';
 
 /**
@@ -273,11 +273,11 @@ export class TownMap {
     return this;
   }
 
-  /** A whetstone: sharpens the patience back to full, and is where the ball comes back to after it is flustered. */
-  whetstone(name, x, z) {
+  /** A krystal (a rest stop): her patience is put right, and it is where she comes back to after she is flustered. */
+  krystal(name, x, z) {
     this.stones.push({ name, x, z });
     // The stand itself is at the pad's corner.
-    return this.place('whetstone', x + 0.72, z - 0.72);
+    return this.place('krystal', x + 0.72, z - 0.72);
   }
 
   /**
@@ -319,7 +319,7 @@ export class TownMap {
       if (Math.hypot(x - cy.x, z - cy.z) < cy.r + 0.55 && cy.y1 > c.h[0] - 0.1 && cy.y0 < c.h[0] + 1.6) return false;
     }
     for (const f of this.foes) if (Math.hypot(f.x - x, f.z - z) < 0.9) return false;
-    // Never where the ball is put down: the start, or a whetstone (unless that is what is being cleared).
+    // Never where she is put down: the start, or a krystal (unless that is what is being cleared).
     if (!near) {
       if (Math.hypot(x - this.start.x - 0.5, z - this.start.z - 0.5) < 3) return false;
       for (const s of this.stones) if (Math.hypot(x - s.x, z - s.z) < 3) return false;

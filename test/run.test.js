@@ -13,7 +13,7 @@ function yard() {
   m.start = { x: 3, z: 3 };
   m.flat(10, 2, 3, 3, -0.6, { surface: 'tar' });
   m.flat(20, 2, 2, 2, 6, { surface: 'concrete' });
-  m.whetstone("Yard", 5.5, 10.5);
+  m.krystal("Yard", 5.5, 10.5);
   m.flare(30, 3);
   m.stamp(30, 12, { period: 3 });
   m.flat(0, 20, 40, 4, 0, { surface: 'road' });
@@ -62,7 +62,7 @@ test('a hard landing cracks the patience; a long drop pops it more than a short 
   assert.ok(hurt(9) > hurt(5));
 });
 
-test('the whetstone tops the patience up and is where it comes back to', () => {
+test('the krystal tops the patience up and is where it comes back to', () => {
   const run = createRun(GFX, { map: yard() });
   run.patience = 30;
   placeBall(run.ball, 5.5, 0.4, 10.5);

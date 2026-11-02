@@ -4,7 +4,7 @@ import { test } from 'node:test';
 import * as GFX from 'madness-engine/gfx';
 import { buildMap, isFlat } from '../src/map.js';
 import { drawStructures, STRUCTURES } from '../src/structures.js';
-import { SURFACES } from 'madness-engine/textures/town/surfaces.metrlol';
+import { SURFACES } from 'madness-engine/textures/town/surfaces';
 import { placeBall } from 'madness-engine/physics';
 import { createRun, STEP, stepRun } from '../src/run.js';
 import { createTown, SIZE } from '../src/town.js';
@@ -28,7 +28,7 @@ test('the town is all there: every tile laid, of a surface there is, and the sam
   assert.deepEqual(again.cells.map((c) => c.h), town.cells.map((c) => c.h));
 });
 
-test('it starts on safe ground at home, with an whetstone in the garden', () => {
+test('it starts on safe ground at home, with a krystal in the garden', () => {
   assert.ok(town.isSafe(town.start.x, town.start.z));
   assert.equal(town.districtAt(town.start.x, town.start.z).name, 'Whisker Heights');
   const home = town.stones.find((p) => p.name === 'Home');
@@ -56,7 +56,7 @@ test('every part of town has golden GPUs in it, and every golden GPU is in one',
   for (const d of DISTRICTS) assert.ok(counts.get(d) >= 3, `${d} has ${counts.get(d) ?? 0}`);
 });
 
-test('every part of town has a whetstone in it', () => {
+test('every part of town has a krystal in it', () => {
   const have = new Set(town.stones.map((s) => town.districtAt(s.x, s.z).name));
   for (const d of DISTRICTS) assert.ok(have.has(d), d);
 });
@@ -71,7 +71,7 @@ test('the likes lie on the map, clear of anything solid', () => {
   }
 });
 
-test('whetstones stand on level ground with room round them', () => {
+test('krystals stand on level ground with room round them', () => {
   assert.ok(town.stones.length >= 8);
   for (const p of town.stones) {
     const c = town.cell(Math.floor(p.x), Math.floor(p.z));

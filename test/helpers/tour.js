@@ -49,7 +49,7 @@ const liftUp = (i, foot, top) => [v(...foot, { until: liftAtEnd(i, 0), stop: tru
 const liftDown = (i, edge, foot) => [v(...edge, { until: liftAtEnd(i, 1), stop: true, speed: 2 }), v(1, 1, { on: i, until: liftAtEnd(i, 0), stop: true, speed: 2 }), v(...foot, { speed: 2 })];
 
 export const TOUR = [
-  // Portland Heights.
+  // Whisker Heights.
   { to: [20, 29.5], expect: 'The free kibble table' },
   { to: [20, 47], expect: 'Middle of the hedge maze' },
   { to: [23.5, 64.6] },
@@ -59,18 +59,18 @@ export const TOUR = [
   { via: [v(73.9, 74, { speed: 12, radius: 0.9 })], expect: 'Up the scratching post (mural side)' },
   { to: [43.5, 23], expect: 'The catnip patch' },
   { to: [65.5, 19.5], expect: 'The cat-house village' },
-  // The Alignment District.
+  // The Kennel District.
   { to: [90, 21], expect: 'Behind the kennel tower' },
   { to: [117, 21], expect: 'The dog house roof' },
   { to: [131.5, 20.5], stop: true },
   { via: [v(152.5, 20.5, { speed: 9, stop: true, radius: 0.6 })], expect: 'Top of the slippery slope' },
   { to: [116.4, 46], expect: 'In the wishing fountain' },
   { to: [81.6, 69.8], expect: 'Up the unfinished scaffold' },
-  // The Ivory Tower.
+  // The Purrdue University.
   { to: [175, 61], expect: 'Bottom of the lecture hall' },
   { to: [205.5, 65], expect: 'On the trolley tracks' },
   { to: [211, 25], expect: 'Top of the Great Cat Tree' },
-  // Hype Valley, and over the footbridge to the central reservation.
+  // Zoomie Valley, and over the footbridge to the central reservation.
   { to: [170, 134.5], expect: 'The garage where she found the first one' },
   { to: [208, 146], expect: 'The Baron\'s infinity pool' },
   { to: [187, 106], expect: 'Peak of Zoomies' },
@@ -85,7 +85,7 @@ export const TOUR = [
   { via: [v(245.6, 121.4, { speed: 3 }), v(246.3, 124.5, { speed: 2 })] },
   { to: [249.6, 249.6] },
   { via: [v(252.7, 252.7, { speed: 5 })], expect: 'The edge of the farm' },
-  // Back across the superhighway at the crossover, into the compute farm.
+  // Back across the superhighway at the crossover, into the kibble works.
   { to: [244.5, 201.5] },
   { via: [v(242.6, 201.5, { until: laneClear([239, 241], 201.5, 16), stop: true, reckless: true }), v(237.5, 201.5, { speed: 6, reckless: true, until: laneClear([234, 236], 201.5, 16), stop: true }), v(231, 201.5, { speed: 6, reckless: true })] },
   { to: [218.2, 182] },
@@ -98,7 +98,7 @@ export const TOUR = [
   { via: [v(164.5, 225, { speed: 12, radius: 0.9 })], expect: 'Top of the scratching ramp' },
   { to: [129.4, 204.5] },
   { via: [v(136, 204.5, { speed: 2.5 }), v(173.5, 204.5, { speed: 3.2 }), v(177.5, 203.5, { speed: 2 })], expect: 'End of the milk pipe' },
-  // Brussels-sur-Mer.
+  // Sardine Bay.
   { to: [103, 175.5], expect: 'In the litter box' },
   { to: [91.5, 171.6] },
   { via: [v(91.5, 179.5, { speed: 3 }), v(89.6, 179.5, { speed: 2 }), v(87.5, 174.5, { speed: 2.5 })], expect: 'On the fish shop roof' },
@@ -108,7 +108,7 @@ export const TOUR = [
   { to: [45, 203.1], expect: 'Front of the queue' },
   { to: [28.5, 186.5] },
   { via: stampingHall(), expect: 'Through the canning hall' },
-  // The Pause Compound.
+  // The Pound.
   { to: [26, 150], expect: 'Down in the kennel bunker' },
   { to: [32.4, 124] },
   { via: liftUp(0, [32.4, 124], [24.5, 124.5]), expect: 'Top of the big kibble tank' },
@@ -118,7 +118,7 @@ export const TOUR = [
   { to: [31, 108.6] },
   { via: [v(31, 99, { speed: 2.5 }), v(31.5, 97.5, { speed: 1.5 }), v(46.5, 97.5, { speed: 2.5 }), v(48.5, 96.5, { speed: 2 })], expect: 'End of the Pound catwalk' },
   { via: [v(46.5, 97.5, { speed: 2 }), v(31.5, 97.5, { speed: 2.5 }), v(31, 99, { speed: 1.5 }), v(31, 108, { speed: 2.5 })] },
-  // The Timeline.
+  // Meowtown.
   { to: [91.5, 125], expect: 'In the echo chamber' },
   { to: [118.5, 125], expect: 'Meme Square' },
   { to: [145, 125], expect: 'Bottom of the ball pit' },

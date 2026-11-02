@@ -14,8 +14,8 @@ A reskin of [Metrlol](https://github.com/h1ddenpr0cess20/metrlol), and made of
 the games before it:
 
 - **the engine** is Metrlol's, which is [Petroll](https://github.com/h1ddenpr0cess20/petroll)'s: the renderer, the physics, the tiled map builder, traffic, hazards, minimap and HUD. The map is Metrlol's, a city of nine parts, 256 tiles each way, re-signed and renamed for cats; like Metrlol's it is tested to be rollable (here, walkable) from end to end;
-- **the lady** is Nonna (`characters/nonna.metrlol`) from the [madness-engine](https://github.com/h1ddenpr0cess20/madness-engine) library, walking about on the ball the physics rolls for her;
-- **the cats** are Catroller's: the six coats of `characters/cat` (Blaze, Nyx, Ghost, Jinx, Vex and Brutus), sculpted at the size of the house they came from and scaled here to about a fifth of a tile at the back, to the lady's three-quarters;
+- **the lady** is Nonna (`characters/nonna`) from the [madness-engine](https://github.com/h1ddenpr0cess20/madness-engine) library, walking about on the ball the physics rolls for her;
+- **the cats** are Catroller's: the six coats of `characters/cat` (Blaze, Nyx, Ghost, Jinx, Vex and Brutus), sculpted at the size of the house they came from and scaled here to about a fifth of a tile at the back, to the lady's three-quarters. They pounce on the first foe of a fight (`attack`) and swat at it after, stalk when they are close, crouch over a bin before they knock it over and bat it about (`play`), flinch when they are knocked (`hit`), hiss when she is hurt (`cast`), sit up and preen after a shoo or when she finds a key (`win`), prick their ears when somebody is about (`alert`), and sit, look round and, in the end, curl up (`sleep`) when there is nothing to do.
 - **the music** is Catroller's: a sneaky little jazz trio played live in Web Audio, the drums doubling up when the cats are at somebody;
 - **the golden keys** are the library's `key`.
 
@@ -68,14 +68,14 @@ can see is the one it runs at, and it claws, over and over, until the foe is
 
 - **Strays** are cats sitting about in ten places round the city (the pink dots on the map). Walk up to one and it **joins the pack**, up to 16 cats. Which strays you have taken in is kept between visits.
 - **Golden keys** are the 42 things to find, with a shaft of light going up from each. The map shows the ones in the parts of town you've been to.
-- **Hearts** are the little hearts lying about in lines. They are love, and worth nothing.
+- **Candy** lies about in lines: wrapped sweets, candy corn, lollipops, peppermints, gumdrops, candy canes and caramel apples, the library's `props/sweets`, each in the same place every time. It is a treat, and worth nothing.
 
 ### Staying in one piece
 
 She starts with 100 **patience**. Hard landings, cars, yarn reels rolling after
 her, the sprinklers coming up out of the floor and the people who get to her
 take it away (half as much as they would: she is a tough old bird). At nothing
-she is **flustered**, and she is back at the last **rest stop** she came to,
+she is **flustered**, and she is back at the last **rest stop** she came to (a fortune-teller's table with Krystal, the crystal ball, on it),
 with a sit down and a cup of tea. A can press coming down on her flusters her
 outright. The milk lake and the sea swallow her, and she's put back on the
 last firm ground. The cats come with her.
@@ -93,11 +93,24 @@ district she is in (`src/spawns.js`) and as many as that district's density
 unmade when she has left them well behind. It is the same every time. Only the
 three bosses and the troll under the bridge are placed, where they stand.
 
-Seventy-three kinds of people, sculpted in code and baked in background
+Eighty-seven kinds of people, sculpted in code and baked in background
 workers while the page loads. Who they are, and what they shout, is in
-`src/foes.js`; the models are Metrlol's cast in new names: the dog walker is
-the cultist, the animal control officer the beat cop, the jogger the
-straight-edge kid, and the colossal sheepdog the yeti.
+`src/foes.js`; the models are the [madness-engine](https://github.com/h1ddenpr0cess20/madness-engine)
+library's cast in new names: the dog walker is the cultist, the animal control
+officer the beat cop, the jogger the straight-edge kid, the postie the mail
+carrier, the lollipop person the crossing guard, and the colossal sheepdog the
+yeti; and, from further afield, a matador, a flamenco dancer, a beach
+vendor, a capoeirista, a sumo apprentice, a gondolier, a pizza chef, a
+souvenir seller and a ninja.
+
+Nobody comes in the one set of colours. Each person is baked in a complexion
+from a table of sixteen (`src/cast/looks.js`: skin, hair and eyes that go
+together, from the palest to the deepest, dealt out round the cast so that
+neighbours aren't alike) and, unless they wear a uniform or a costume, in
+clothes picked for them out of a palette, the same every time; the cop is the
+cop in anyone's skin, but the jogger's shirt and the professor's tweed are not
+the library's. It is the engine's `person().variant()`: the same person baked
+in other colours, nothing sculpted anew.
 
 ## The city
 
@@ -132,7 +145,7 @@ are new:
 | `src/audio.js` | Catroller's trio, and every sound effect, synthesised. |
 
 Some names in the code are Metrlol's still: the golden keys are `gpu`s and
-`gpus`, the rest stops are `whetstone`s and `stones`, the purrs are `cred`.
+`gpus`, the rest stops are `krystal`s (their saved-game field is still `stone`), the purrs are `cred`.
 
 | Script | |
 |---|---|

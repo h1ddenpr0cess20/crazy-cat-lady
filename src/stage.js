@@ -17,7 +17,7 @@ import { WebGLBackend } from 'madness-engine/gfx/webgl';
 import { WebGPUBackend } from 'madness-engine/gfx/webgpu';
 import { createView } from 'madness-engine/views/town';
 import { paintRoom } from 'madness-engine/textures/rooms/town';
-import { paintSky } from 'madness-engine/textures/skies/town.metrlol';
+import { paintSky } from 'madness-engine/textures/skies/town';
 
 /** How far back the camera sits at zoom 1, and its lens. Where round the marble it is, is the view's (`view.js`). */
 export const LENS = Object.freeze({ distance: 10, fov: 36 });

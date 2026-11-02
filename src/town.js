@@ -28,7 +28,7 @@ import { TownMap } from './map.js';
  *   Meowtown  the middle, downtown: towers with cat videos on them, Meme
  *                 Square, the echo chamber, the ball pit, the catwalk (a
  *                 walkway in the air, to the end of it), and the catnip
- *                 farm, where the hearts are grown.
+ *                 farm, where the candy is grown.
  *   Zoomie Valley  east: the zoomie cycle, in hills — the peak of the
  *                 zoomies, the trough of naps, the slope of stretching, the
  *                 plateau of loafing — and the garage where she found the
@@ -61,7 +61,7 @@ const berm = (X, Z) => {
 };
 
 /**
- * The hype cycle, west to east across Hype Valley: the trigger, the peak of
+ * The zoomie cycle, west to east across Zoomie Valley: the trigger, the peak of
  * inflated expectations, the trough of disillusionment, the slope of
  * enlightenment up to the plateau of productivity. Each stretch eases in
  * and out; the ridge fades out to level at its ends.
@@ -112,14 +112,14 @@ export function createTown() {
   c.solid(0, 0, 0, F, top, SIZE).solid(SIZE - F, 0, 0, SIZE, top, SIZE);
 
   streets(c);
-  portlandHeights(c);
-  alignmentDistrict(c);
-  ivoryTower(c);
-  pauseCompound(c);
-  timeline(c);
-  hypeValley(c);
-  brussels(c);
-  computeFarm(c);
+  whiskerHeights(c);
+  kennelDistrict(c);
+  purrdue(c);
+  pound(c);
+  meowtown(c);
+  zoomieValley(c);
+  sardineBay(c);
+  kibbleWorks(c);
   superhighway(c);
   furnish(c);
   scrub(c);
@@ -329,9 +329,9 @@ function streetFurniture(c) {
   for (const [z, x0, x1] of ACROSS) for (let x = x0 + 11.5; x < x1 - 6; x += 22) if (!near(x, z)) lamp(x, z - kerb, -Math.PI / 2);
 }
 
-// ——————————————————————————————————————————————————————————— Portland Heights
+// ——————————————————————————————————————————————————————————— Whisker Heights
 
-function portlandHeights(c) {
+function whiskerHeights(c) {
   const walls = ['#e6dccb', '#c9d8e8', '#f0d9a8', '#d8b8c8', '#cfe3c2', '#f2e6d0', '#e8c8a8', '#c8d8c0'];
 
   // Home, and the neighbours.
@@ -341,7 +341,7 @@ function portlandHeights(c) {
   house(c, 12, 25, 5, 5, walls[3], { door: 's' });
   house(c, 23, 25, 5, 5, walls[4], { door: 's' });
   c.paint(14, 11, 1, 1, 'concrete');
-  c.whetstone('Home', 20.5, 20.5);
+  c.krystal('Home', 20.5, 20.5);
   c.place('mailbox', 15.6, 10.6, { turn: 2 });
   c.place('tree', 26.5, 21, { scale: 1.1 });
   c.place('tree', 12, 21.5, { scale: 0.95, angle: 1 });
@@ -460,7 +460,7 @@ function skatePark(c) {
   }, concrete);
   c.paint(38, 69, 16, 10, 'lawn');
 
-  // The quarter pipe, murals on it, and a golden GPU near the top for anyone who takes a run at it.
+  // The quarter pipe, murals on it, and a golden key near the top for anyone who takes a run at it.
   c.surface(70, 66, 4, 16, (X) => CURB + 1.75 * ((X - 70) / 4) ** 2, concrete);
   c.gpu('Up the scratching post (mural side)', 73.5, 74, { y: CURB + 1.75 * (3.5 / 4) ** 2 });
 
@@ -476,9 +476,9 @@ function skatePark(c) {
   lamps(c, [[35.6, 52.3], [55, 49], [63.4, 49], [57.4, 65.6], [63.5, 70.5], [35.6, 65.6], [69.4, 82.4]]);
 }
 
-// ——————————————————————————————————————————————————————————— The Alignment District
+// ——————————————————————————————————————————————————————————— The Kennel District
 
-function alignmentDistrict(c) {
+function kennelDistrict(c) {
   // The Longterm Institute, and the alley behind it.
   block(c, 80, 10, 23, 22, 'concrete');
   c.block(81, 11, 8, 10, CURB + 7.2, { wall: '#a8b4c4', facade: 'office', base: CURB, lit: 0.35 });
@@ -542,7 +542,7 @@ function alignmentDistrict(c) {
   c.place('statue', 110.5, 54.5, { turn: 2 });
   for (const [x, z] of [[111, 40], [125, 40], [125, 53]]) c.place('tree', x, z, { scale: 1.05, angle: x });
   c.place('bench', 116, 39.6, { turn: 2 }).place('bench', 120, 55).place('bin', 118.2, 39.5, { scale: 0.7 });
-  c.whetstone('Kennel Square', 126.5, 46.5);
+  c.krystal('Kennel Square', 126.5, 46.5);
   c.likeLine(109, 46, 112, 46, 2).likeLine(123, 42, 123, 50, 4);
   placard(c, 117, 37.3, 'WHEN IN\nDOUBT,\nWALKIES.', { facing: 2, ...RED });
   placard(c, 113.5, 55.2, 'BONES:\nA WARNING', { facing: 0 });
@@ -572,7 +572,7 @@ function alignmentDistrict(c) {
   c.reel(97, 79, { range: 6 });
   placard(c, 96, 81.5, 'FEED THE CRANE\n(DEMAND #4)', { facing: 0, ...RED });
 
-  // The Effective Altruism Center.
+  // The Animal Welfare Centre.
   block(c, 107, 62, 23, 22, 'concrete');
   c.block(109, 64, 10, 10, CURB + 8, { wall: '#c8d0d8', facade: 'office', base: CURB, lit: 0.4 });
   c.block(121, 64, 7, 16, CURB + 5, { wall: '#b08068', facade: 'brick', base: CURB, lit: 0.5, door: 'w' });
@@ -592,9 +592,9 @@ function alignmentDistrict(c) {
   placard(c, 144.5, 73.2, 'STRONG OPINIONS\nON CATS\n(ALL BAD)', { facing: 0 });
 }
 
-// ——————————————————————————————————————————————————————————— The Ivory Tower
+// ——————————————————————————————————————————————————————————— The Purrdue University
 
-function ivoryTower(c) {
+function purrdue(c) {
   block(c, 160, 10, 66, 74, 'lawn');
   c.paint(161, 46, 64, 2, 'sidewalk').paint(192, 11, 2, 72, 'sidewalk');
 
@@ -603,7 +603,7 @@ function ivoryTower(c) {
   screen(c, 175, 28.05, CURB + 3.8, 'THE LIBRARY\nSHH · CAT ON KEYBOARD', { facing: 0, w: 5, h: 1.2, bg: '#2a2418', fg: '#f4e0b0', glow: '#ffe0a0' });
   placard(c, 188.5, 21, 'ALL RIGHTS\nRESERVED\n(SCRATCHED)', { facing: 1 });
 
-  // The Ivory Tower: three times round, up to the top, where it's above it all.
+  // The Great Cat Tree: three times round, up to the top, where it's above it all.
   const marble = { surface: 'marble', wall: '#ece6d8' };
   lap(c, 200, 14, 22, CURB, CURB + 3, marble);
   lap(c, 202, 16, 18, CURB + 3, CURB + 6, marble);
@@ -637,7 +637,7 @@ function ivoryTower(c) {
 
   // The quad: the statue, the dorms, the trees.
   c.place('statue', 193, 40, { turn: 2 });
-  c.whetstone('The Quad', 188.5, 40.5);
+  c.krystal('The Quad', 188.5, 40.5);
   c.block(170, 74, 12, 7, CURB + 4.8, { wall: '#c8a888', facade: 'brick', base: CURB, door: 'n', lit: 0.6 });
   c.block(198, 72, 14, 8, CURB + 4.8, { wall: '#b8a090', facade: 'brick', base: CURB, door: 'n', lit: 0.6 });
   lamps(c, [167, 178, 189, 199, 210, 221].map((x) => [x, 45.6]), -Math.PI / 2);
@@ -646,18 +646,18 @@ function ivoryTower(c) {
   c.likeLine(162, 47, 190, 47, 10).likeLine(196, 47, 224, 47, 10).likeLine(193, 12, 193, 37, 8);
 }
 
-// ——————————————————————————————————————————————————————————— The Pause Compound
+// ——————————————————————————————————————————————————————————— The Pound
 
-function pauseCompound(c) {
+function pound(c) {
   c.flat(10, 88, 66, 76, 0, { surface: 'concrete' });
-  // The fence round it, gates in from the avenue and from the Timeline.
+  // The fence round it, gates in from the avenue and from Meowtown.
   const mesh = (x0, z0, x1, z1) => wall(c, x0, z0, x1, z1, 0, 2.2, '#8a9098', 'matte', 'chainlink');
   mesh(10.2, 88.4, 40, 88.6); mesh(44, 88.4, 75.8, 88.6);
   mesh(75.6, 88.6, 75.8, 140); mesh(75.6, 144, 75.8, 163.6);
   mesh(10.2, 163.4, 75.8, 163.6);
   mesh(10.2, 88.6, 10.4, 163.4);
   c.prop('gate', 40, 89, { w: 4 });
-  c.whetstone('Pound Gate', 46.5, 93.5);
+  c.krystal('Pound Gate', 46.5, 93.5);
   placard(c, 36, 90.6, 'THE POUND\nHONK IF YOU\'RE\nA CAT', { facing: 2, ...RED });
 
   /** A tank: solid as the cylinder it's drawn as, its roof something to stand on. */
@@ -718,7 +718,7 @@ function pauseCompound(c) {
   placard(c, 40, 158.5, 'I TOLD YOU SO\n(IN 2003)', { facing: 0 });
 }
 
-// ——————————————————————————————————————————————————————————— The Timeline
+// ——————————————————————————————————————————————————————————— Meowtown
 
 /** A downtown block: four towers on a pavement, plazas between them, screens on some of their faces. */
 function towers(c, x, z, w, d, seed, { skip = [] } = {}) {
@@ -747,7 +747,7 @@ function towers(c, x, z, w, d, seed, { skip = [] } = {}) {
 const SCREENS = ['TRENDING:\nCATS', 'MEOW', 'CAT VIDEO\nINCOMING', 'PURRS\n+3%', 'THIS IS\nFINE', 'AWWW?', 'UNFOLLOW\nDOGS', 'BREAKING:\nKITTENS', 'WATCH THE\nCAT', '1/47', 'CAT ADDED', 'SPONSORED\nBY TUNA'];
 const SCREEN_COLOURS = [['#1a1a2a', '#f4f1ea'], ['#0a1a3a', '#5ac8ff'], ['#2a0a1a', '#ff5a8a'], ['#1a2a0a', '#c8ff5a'], ['#2a1a0a', '#ffc85a']];
 
-function timeline(c) {
+function meowtown(c) {
   towers(c, 80, 88, 23, 22, 41);
   towers(c, 107, 88, 23, 22, 43);
   towers(c, 134, 88, 22, 22, 47);
@@ -773,7 +773,7 @@ function timeline(c) {
   // Meme Square: the screens all round it, the billboard, the crowd.
   block(c, 107, 114, 23, 22, 'brick');
   c.gpu('Meme Square', 118.5, 125);
-  c.whetstone('Meme Square', 111.5, 131.5);
+  c.krystal('Meme Square', 111.5, 131.5);
   c.prop('billboard', 127.6, 125, { text: 'MEOW', tag: 'YOU HAVE BEEN MEOWED AT · 4.2K PURRS' });
   c.solid(127.2, CURB, 122.6, 128.0, CURB + 6.5, 127.4);
   for (const [x, z] of [[110, 117], [126, 117], [110, 133]]) c.place('tree', x, z, { scale: 1.1, angle: x });
@@ -824,10 +824,10 @@ function timeline(c) {
   c.foe('troll', 102.4, 151, { range: 1.5, notice: 5 });
 }
 
-// ——————————————————————————————————————————————————————————— Hype Valley
+// ——————————————————————————————————————————————————————————— Zoomie Valley
 
-function hypeValley(c) {
-  // The hype cycle, signposted.
+function zoomieValley(c) {
+  // The zoomie cycle, signposted.
   placard(c, 165, 106.5, 'THE FIRST\nZOOMIE', { facing: 1 });
   placard(c, 183, 100.5, 'PEAK OF\nTHE\nZOOMIES', { facing: 0 });
   placard(c, 201, 99.5, 'TROUGH\nOF NAPS', { facing: 0 });
@@ -891,14 +891,14 @@ function hypeValley(c) {
   house(c, 188, 141, 6, 5, '#e8d8c0', { door: 'n', h: 2.4 });
   placard(c, 186.5, 139.4, 'CAT HOUSE\nWE SLEEP\n(ALL DAY)', { facing: 2 });
 
-  c.whetstone('Zoomie Valley', 165.5, 145.5);
+  c.krystal('Zoomie Valley', 165.5, 145.5);
   scatter(c, 'tree', 160, 128, 66, 36, 18, { seed: 31, surfaces: ['grass'], maxH: 3.5 });
   scatter(c, 'shrub', 160, 88, 66, 36, 30, { seed: 37, surfaces: ['grass'], maxH: 7 });
 }
 
-// ——————————————————————————————————————————————————————————— Brussels-sur-Mer
+// ——————————————————————————————————————————————————————————— Sardine Bay
 
-function brussels(c) {
+function sardineBay(c) {
   // The European quarter: the Commission, and the stamping hall.
   block(c, 10, 168, 52, 24, 'marble');
   c.block(13, 170, 18, 9, CURB + 8, { wall: '#d8dce4', facade: 'office', base: CURB, door: 's', lit: 0.4 });
@@ -940,7 +940,7 @@ function brussels(c) {
   c.deck(99.8, 171.8, 6.4, 7.4, 2.5, { colour: '#e8e4dc', roof: true });
   c.prop('sandbox', 100, 173, { w: 6, d: 5 });
   c.gpu('In the litter box', 103, 175.5);
-  c.whetstone('Sardine Bay', 96.5, 188.5);
+  c.krystal('Sardine Bay', 96.5, 188.5);
   placard(c, 110, 186.5, 'FISH\nSTRIKE\n(DAY 4)', { facing: 2, ...RED });
   placard(c, 114, 176, 'NO\nFISH\nWITHOUT\nCONSULTATION', { facing: 3 });
 
@@ -997,9 +997,9 @@ function brussels(c) {
   c.likeLine(10, 223, 86, 223, 20);
 }
 
-// ——————————————————————————————————————————————————————————— The Compute Farm
+// ——————————————————————————————————————————————————————————— The Kibble Works
 
-function computeFarm(c) {
+function kibbleWorks(c) {
   c.flat(124, 168, 102, 28, 0, { surface: 'gravel' });
   c.flat(124, 200, 102, 41, 0, { surface: 'gravel' });
   c.flat(176, 164, 4, 36, 0, { surface: 'road' });
@@ -1038,7 +1038,7 @@ function computeFarm(c) {
   // The site office.
   c.prop('trailer', 128, 210, { w: 4, d: 2, y: 0 });
   c.solid(128, 0, 210, 132, 1.5, 212);
-  c.whetstone('Kibble Works Office', 134.5, 214.5);
+  c.krystal('Kibble Works Office', 134.5, 214.5);
 
   // The hockey stick: flat for a long way, then LINE GO UP.
   c.flat(140, 222, 16, 6, 0, { surface: 'metal' });
@@ -1078,7 +1078,7 @@ function computeFarm(c) {
 
 }
 
-/** Scrub and rocks over the compute farm's open gravel, round whatever stands on it. */
+/** Scrub and rocks over the kibble works's open gravel, round whatever stands on it. */
 function scrub(c) {
   const rnd = random(4242);
   const open = (x, z) => {
@@ -1137,7 +1137,7 @@ function superhighway(c) {
 
 // ——————————————————————————————————————————————————————————— Furnishing
 
-/** Whether the rectangle is free to put something on: no road or water, nothing solid or round, no like, golden GPU or whetstone. */
+/** Whether the rectangle is free to put something on: no road or water, nothing solid or round, no like, golden key or rest stop. */
 function clear(c, x0, z0, x1, z1, m = 0.4) {
   for (let z = Math.floor(z0); z < z1; z++) {
     for (let x = Math.floor(x0); x < x1; x++) {
@@ -1203,7 +1203,7 @@ function furnish(c) {
   const rnd = random(77);
   const colour = () => CANVAS[Math.floor(rnd() * CANVAS.length)];
 
-  // Portland Heights: the farmers' market by the community garden, a stall outside the skate shop.
+  // Whisker Heights: the farmers' market by the community garden, a stall outside the skate shop.
   stall(c, 38, 29, 'MILK', '#3a8a4a');
   stall(c, 49, 29, 'BISCUITS', '#c8882a');
   stall(c, 69.5, 75.4, 'CAT TOYS', '#16161a');
@@ -1215,7 +1215,7 @@ function furnish(c) {
   for (const [x, z] of [[110, 43], [110, 49.5], [126.5, 51.5], [137.5, 54.5], [141.5, 55.5], [152.5, 54.5], [148, 55.5]]) tent(c, x, z, colour(), { peak: rnd() < 0.3 });
   placard(c, 145, 50.5, 'DAY 365\nOF THE DOG PARK\n(STILL HERE)', { facing: 0, ...RED });
 
-  // The Ivory Tower: the student encampment, the free pizza.
+  // Purrdue University: the student encampment, the free pizza.
   for (const [x, z] of [[219, 54], [221.5, 58.5], [218.5, 62.5], [222, 67]]) tent(c, x, z, colour());
   stall(c, 188, 60, 'FREE PIZZA (DOG TALK)', '#c8382c');
   placard(c, 219, 50.5, 'STUDENTS FOR\nDOGS\n(UNTIL FINALS)', { facing: 0 });
@@ -1231,9 +1231,9 @@ function furnish(c) {
   // Meowtown: hot dogs, served hot.
   stall(c, 124, 119.5, 'HOT DOGS', '#c8382c');
   stall(c, 113, 119.5, 'MEOWS (COLD)', '#2a5aa8');
-  stall(c, 139.5, 147.5, 'ORGANIC HEARTS', '#3a8a4a');
+  stall(c, 139.5, 147.5, 'ORGANIC CANDY', '#3a8a4a');
 
-  // Brussels-sur-Mer: the cookie consent desk, parked cars, the café terrace, the festival, the beach.
+  // Sardine Bay: the cookie consent desk, parked cars, the café terrace, the festival, the beach.
   stall(c, 18, 184.5, 'FISH FINGERS', '#1a3aa0');
   stall(c, 24, 184.5, 'FORMS', '#1a3aa0');
   for (let x = 80.5; x < 118; x += 3) c.mark(x, 186, 0.12, 4);
@@ -1247,7 +1247,7 @@ function furnish(c) {
   stall(c, 30, 226.6, 'ICE CREAM', '#f2c230');
   stall(c, 70, 226.6, 'WAFFLES', '#c8882a');
 
-  // The Compute Farm: modular data centres in containers, generators, the solar farm.
+  // The Kibble Works: kibble halls in containers, ovens, the solar farm.
   for (const x of [140, 148, 156, 164]) for (const z of [208.5, 212.5]) container(c, x, z, 6, 2.4, ['#c8ccd2', '#2a6ac8', '#e8e4dc'][Math.floor(rnd() * 3)]);
   container(c, 181, 170.5, 5, 2.4, '#e8b020');
   container(c, 181, 192, 5, 2.4, '#e8b020');
@@ -1269,8 +1269,8 @@ function furnish(c) {
 
 /**
  * Two rings round the north of the city, one each way; rings round
- * Brussels and Hype Valley, and round the middle of the Alignment District
- * and the Timeline; trucks round the compute farm; the
+ * Sardine Bay and Zoomie Valley, and round the middle of the Kennel District
+ * and Meowtown; trucks round the kibble works; the
  * trolley, round its problem; and the superhighway, which never stops.
  */
 function traffic(c) {
