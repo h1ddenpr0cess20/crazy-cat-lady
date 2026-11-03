@@ -3,7 +3,7 @@
 An old lady in a cardigan and her pack of cats are loose in an open city of
 dog people. There are no tracks and no levels: it is one map, all of it there
 from the start, and she can walk anywhere she can get to. In the way are the
-dog walkers and the dog park activists, the allergic neighbours, the council
+dog walkers and the dog park activists, the allergic neighbors, the council
 inspectors, the animal control officers, the joggers who were not looking, and
 the dogs. She mostly doesn't lift a finger. **The cats do the fighting.**
 
@@ -68,7 +68,7 @@ can see is the one it runs at, and it claws, over and over, until the foe is
 
 - **Strays** are cats sitting about in ten places round the city (the pink dots on the map). Walk up to one and it **joins the pack**, up to 16 cats. Which strays you have taken in is kept between visits.
 - **Golden keys** are the 42 things to find, with a shaft of light going up from each. The map shows the ones in the parts of town you've been to.
-- **Candy** lies about in lines: wrapped sweets, candy corn, lollipops, peppermints, gumdrops, candy canes and caramel apples, the library's `props/sweets`, each in the same place every time. It is a treat, and worth nothing.
+- **Milk** stands about in lines: cartons of it, sculpted by the library's `props/groceries`, each in the same place every time. It is a treat for the cats, and worth nothing.
 
 ### Staying in one piece
 
@@ -103,14 +103,14 @@ yeti; and, from further afield, a matador, a flamenco dancer, a beach
 vendor, a capoeirista, a sumo apprentice, a gondolier, a pizza chef, a
 souvenir seller and a ninja.
 
-Nobody comes in the one set of colours. Each person is baked in a complexion
+Nobody comes in the one set of colors. Each person is baked in a complexion
 from a table of sixteen (`src/cast/looks.js`: skin, hair and eyes that go
 together, from the palest to the deepest, dealt out round the cast so that
-neighbours aren't alike) and, unless they wear a uniform or a costume, in
+neighbors aren't alike) and, unless they wear a uniform or a costume, in
 clothes picked for them out of a palette, the same every time; the cop is the
 cop in anyone's skin, but the jogger's shirt and the professor's tweed are not
 the library's. It is the engine's `person().variant()`: the same person baked
-in other colours, nothing sculpted anew.
+in other colors, nothing sculpted anew.
 
 ## The city
 

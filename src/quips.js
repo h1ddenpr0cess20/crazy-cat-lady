@@ -3,7 +3,7 @@
  * in a city full of people who do not like cats, and who very much like
  * dogs. She is sweet, she is sharp and she is entirely unbothered: the cats
  * do the fighting, and she remarks on it afterwards, to the dog walkers, the
- * neighbours, the inspectors and above all the dogs.
+ * neighbors, the inspectors and above all the dogs.
  *
  * A line is picked for what just happened; the people have a line of their
  * own (`shout` in `foes.js`), said when they notice her.
@@ -11,12 +11,12 @@
 
 export const QUIPS = Object.freeze({
   shoo: ['Shoo. Shoo, dear.', 'Off you go. They don\'t bite. Much.', 'Oh, was that your spot?', 'Good kitties.', 'That\'s what you get.', 'I did say they were friendly.', 'Mind the claws, dear. Too late.', 'They\'re only playing.'],
-  swarm: ['The whole pack! Aren\'t they marvellous?', 'A clowder of cats, and one very surprised man.', 'That\'s what we call a swarm, dear.', 'Teamwork. I taught them everything.', 'Fur everywhere. Mostly on him.', 'Not one of them hesitated. Proud of them.'],
+  swarm: ['The whole pack! Aren\'t they marvelous?', 'A clowder of cats, and one very surprised man.', 'That\'s what we call a swarm, dear.', 'Teamwork. I taught them everything.', 'Fur everywhere. Mostly on him.', 'Not one of them hesitated. Proud of them.'],
   bonk: ['Oof. Rude.', 'Manners, dear. Honestly.', 'My hip! My good hip!', 'Not the cardigan.', 'Kitties! Little help!', 'Mind the knitting!'],
   fell: ['Oops. Knees, don\'t fail me now.', 'That\'s a long way down for a lady my age.', 'Whoops-a-daisy.', 'I\'m fine. I\'m fine. Where\'s my tea?'],
   flustered: ['Oh, I\'m all in a tizzy. A cup of tea, and I\'ll be fine.', 'Flustered! Quite flustered. Back to my armchair.', 'I need a sit down. And a biscuit.', 'Not at my age. Not before tea.'],
   sharpened: ['Ahh. A sit down. Tea, and a biscuit.', 'Feet up. The cats are on my lap. Perfect.', 'A little rest. Right as rain.', 'Patience restored. Mostly.'],
-  like: ['A little sweet. Lovely.', 'Oh, a candy. For me?', 'The cats are purring. That\'s something.'],
+  like: ['Milk! The cats will be thrilled.', 'Oh, a carton of milk. For the cats, of course.', 'The cats are purring. That\'s something.', 'Fresh. Not a drop for me. Well, a drop.'],
   gpu: ['A golden key! Whatever could it open? Every cat in the street wants to know.', 'A key. I do love a key. The cats love a key more.', 'Gold. Shiny. The cats have already tried to eat it.', 'One more key for the jar.', 'Found one! Don\'t tell the dogs.'],
   stray: ['A new friend! Come along, dear. There\'s tuna.', 'Oh, who\'s this? You\'re coming home with us.', 'Another one? I couldn\'t possibly. Well, perhaps.', 'There\'s always room for one more.', 'It\'s a lovely little thing. And it\'s mine now.'],
   combo: ['They\'re on a roll. A hairball roll.', 'Look at them go.', 'That\'s a lot of people being wrong about cats at once.', 'My little darlings!'],
