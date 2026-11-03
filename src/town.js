@@ -28,7 +28,7 @@ import { TownMap } from './map.js';
  *   Meowtown  the middle, downtown: towers with cat videos on them, Meme
  *                 Square, the echo chamber, the ball pit, the catwalk (a
  *                 walkway in the air, to the end of it), and the catnip
- *                 farm, where the candy is grown.
+ *                 farm, where the milk is grown.
  *   Zoomie Valley  east: the zoomie cycle, in hills — the peak of the
  *                 zoomies, the trough of naps, the slope of stretching, the
  *                 plateau of loafing — and the garage where she found the
@@ -1055,7 +1055,7 @@ function kibbleWorks(c) {
   c.flat(198, 217, 4, 1, 0, { surface: 'plank' });
   c.gpu('The milk lake island', 203, 217.5);
   c.prop('sign', 196.6, 216, { text: 'DANGER\nMILK LAKE', y: 0 });
-  placard(c, 203, 212.4, 'THE MILK LAKE\nUNPASTEURISED\nDO NOT DRINK', { facing: 2 });
+  placard(c, 203, 212.4, 'THE MILK LAKE\nUNPASTEURIZED\nDO NOT DRINK', { facing: 2 });
 
   // The yarn yard: stacks to weave through, and reels that roll after you.
   c.flat(186, 226, 14, 12, 0, { surface: 'concrete' });
@@ -1231,7 +1231,7 @@ function furnish(c) {
   // Meowtown: hot dogs, served hot.
   stall(c, 124, 119.5, 'HOT DOGS', '#c8382c');
   stall(c, 113, 119.5, 'MEOWS (COLD)', '#2a5aa8');
-  stall(c, 139.5, 147.5, 'ORGANIC CANDY', '#3a8a4a');
+  stall(c, 139.5, 147.5, 'ORGANIC MILK', '#3a8a4a');
 
   // Sardine Bay: the cookie consent desk, parked cars, the café terrace, the festival, the beach.
   stall(c, 18, 184.5, 'FISH FINGERS', '#1a3aa0');

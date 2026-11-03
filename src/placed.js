@@ -4,11 +4,11 @@ import { model } from './models/library.js';
 /**
  * The sculpted models standing about the map, drawn: every copy of a model
  * near each other merged into one mesh (turned, scaled and moved into place, its paint
- * mixed into its colours), with the night's light baked into it from the
+ * mixed into its colors), with the night's light baked into it from the
  * lamps round about, the way it is into the ground under it.
  */
 const CHUNK = 16;
-const NO_SHADOW = new Set(['sweet', 'candycorn', 'lollipop', 'caramelapple', 'peppermint', 'gumdrop', 'candycane', 'shrub', 'rock', 'cone', 'tyres', 'hydrant']);
+const NO_SHADOW = new Set(['milk', 'shrub', 'rock', 'cone', 'tyres', 'hydrant']);
 
 export function createPlaced(GFX, map, light) {
   const group = new GFX.Group();
@@ -44,11 +44,11 @@ export function createPlaced(GFX, map, light) {
 /**
  * Copies of one model — each `{ x, y, z, angle, scale, paint }` — merged into
  * one mesh: turned, scaled and moved into place, paint mixed into the
- * paint material's colours, and `light(x, y, z)` baked in.
+ * paint material's colors, and `light(x, y, z)` baked in.
  */
 export function mergeCopies(GFX, name, copies, light) {
   const { def, data, materials } = model(GFX, name);
-  // The materials a copy's `paint` colours: the `paint` material, and any that is `tinted` (a wrapper, a gumdrop's sugar).
+  // The materials a copy's `paint` colors: the `paint` material, and any that is `tinted`.
   const painted = new Set(Object.entries(def.materials).flatMap(([name, m], i) => (name === 'paint' || m.tinted ? [i] : [])));
   // Which vertices are paint: those in those materials' triangles.
   const isPaint = new Uint8Array(data.position.length / 3);
