@@ -37,7 +37,7 @@ import medic from 'madness-engine/characters/medic';
 import mime from 'madness-engine/characters/mime';
 import mogul from 'madness-engine/characters/mogul';
 import mourner from 'madness-engine/characters/mourner';
-import neighbour from 'madness-engine/characters/neighbour';
+import neighbor from 'madness-engine/characters/neighbor';
 import newsie from 'madness-engine/characters/newsie';
 import nonna from 'madness-engine/characters/nonna';
 import nuguy from 'madness-engine/characters/nuguy';
@@ -93,7 +93,7 @@ const LIBRARY = {
   alien, archaeologist, beerguy, blader, cabbie, clubber, cop, corgi, coroner, cowboy,
   critic, cultist, cyclist, dj, doomlord, drunk, emo, engineer, eurocrat, floridaman, folkie, foreman,
   gatekeeper, gent, goth, hippie, hipster, hotdog, hxckid, influencer, knight, lifeguard, mascot, medic,
-  mime, mogul, mourner, neighbour, newsie, nonna, nuguy, pallbearer, paparazzo, pauser, phone, poet, poser,
+  mime, mogul, mourner, neighbor, newsie, nonna, nuguy, pallbearer, paparazzo, pauser, phone, poet, poser,
   promoter, punk, purist, rat, raver, roadie, robot, runner, scenekid, security, skater, soundguy, stoner,
   streetteam, suit, agent: suit, rival: nonna, surfer, tourist, troll, waiter, welder, wizard, yeti, zinekid, zombie,
   // The lady's pack.
@@ -102,6 +102,6 @@ const LIBRARY = {
 
 /**
  * Everyone sculpted, by name (see foes.js for who they are and what they are called here): the library's people, each
- * in colours of their own (looks.js), the cats as they come, and the lady as she is.
+ * in colors of their own (looks.js), the cats as they come, and the lady as she is.
  */
 export const CAST = dressed(LIBRARY);

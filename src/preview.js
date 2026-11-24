@@ -13,7 +13,7 @@ import { createStage } from './stage.js';
  * to each other), any sculpted model (`?model=sedan`; `?models=sedan,pickup`
  * puts several in a row), or the people (`?foes=pauser,eurocrat`, by foe
  * name; `?foes=all`). `?paint=`
- * colours a vehicle; `?yaw`, `?zoom`, `?pitch` place the view; `?still`
+ * colors a vehicle; `?yaw`, `?zoom`, `?pitch` place the view; `?still`
  * stops it turning; `?day` lights it plainly.
  */
 

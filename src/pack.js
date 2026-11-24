@@ -22,7 +22,7 @@ export const SIZE = 0.24;
 export const RADIUS = 0.15;
 
 /** The coats the pack is drawn from, in the order they join. */
-export const COATS = ['ginger', 'black', 'grey', 'calico', 'siamese', 'tom'];
+export const COATS = ['ginger', 'black', 'gray', 'calico', 'siamese', 'tom'];
 
 /** How many are in the pack to begin with, and the most it grows to. */
 export const START = 6;
