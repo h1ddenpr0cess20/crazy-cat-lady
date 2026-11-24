@@ -5,13 +5,13 @@ import { createModel } from 'madness-engine/models/model';
 /**
  * Who is in the way. The dog people are out on the streets of the city, and
  * they have opinions about cats: the dog walkers and the dog park activists,
- * the allergic neighbours, the council inspectors and the animal control
+ * the allergic neighbors, the council inspectors and the animal control
  * officers, the joggers who were not looking, and the dogs, who are
  * everywhere. Each is a caricature, not of anyone in particular: the cats
  * are equally rude to all of it.
  *
  * `model` is who they are sculpted as (`cast/`, baked in the background as
- * the page loads; the cast is the engine's library, each in colours of their own: see `cast/looks.js`). How each
+ * the page loads; the cast is the engine's library, each in colors of their own: see `cast/looks.js`). How each
  * takes being clawed is the same for all (`claws.js`):
  *
  *   `toughness`  twice it is how much `hp` they have, when the cats claw them
@@ -39,9 +39,9 @@ export const FOES = Object.freeze({
   pizzaiolo: { model: 'pizzaiolo', name: 'Pizza Chef', blurb: 'Flour on everything. Has anchovies, and is quite sure they are for the cats. They are not.', toughness: 5, power: 5, hype: 70, radius: 0.43, speed: 2.8, shout: 'MAMMA MIA! NOT THE DOUGH!' },
   souvenirs: { model: 'hawker', name: 'Souvenir Seller', blurb: 'A tray of tiny dog statues, a smile that does not move, and a price that does. Haggle, or be haggled.', toughness: 4, power: 3, hype: 50, radius: 0.37, speed: 3.6, shout: 'GOOD PRICE! VERY GOOD PRICE!' },
   ninja: { model: 'ninja', name: 'Theme-Park Ninja', blurb: 'Silent. Black. In the full sun, in the middle of the road. Throws leaflets for the park, not stars.', toughness: 5, power: 6, hype: 80, radius: 0.35, speed: 4.8, shout: '(SHHH. I AM NOT HERE.)' },
-  // The dog park crowd, and the neighbours.
+  // The dog park crowd, and the neighbors.
   pauser: { model: 'pauser', name: 'Dog Park Activist', blurb: 'Holds a sign. The sign says WALKIES. Has been holding it since the cats moved in.', toughness: 4, power: 3, hype: 50, radius: 0.37, speed: 2.8, shout: 'WALKIES! WALKIES!' },
-  doomer: { model: 'mourner', name: 'Allergic Neighbour', blurb: 'Sneezes at the sight of a cat. Sneezes at the thought of one. Dressed in black for the occasion.', toughness: 5, power: 5, hype: 70, radius: 0.41, speed: 2.2, shout: 'ACHOO! IT\'S HAPPENING!' },
+  doomer: { model: 'mourner', name: 'Allergic Neighbor', blurb: 'Sneezes at the sight of a cat. Sneezes at the thought of one. Dressed in black for the occasion.', toughness: 5, power: 5, hype: 70, radius: 0.41, speed: 2.2, shout: 'ACHOO! IT\'S HAPPENING!' },
   forecaster: { model: 'coroner', name: 'Weather Presenter', blurb: 'Predicts rain. Predicts hail. Predicts a lot of cats, accurately, for once.', toughness: 6, power: 6, hype: 80, radius: 0.37, speed: 3.0, shout: 'SEVERE CAT WARNING!' },
   rationalist: { model: 'cultist', name: 'Dog Walker', blurb: 'Eleven dogs on eleven leads, all tangled. Does not have a plan for the cats.', toughness: 5, power: 5, hype: 80, radius: 0.38, speed: 1.9, shout: 'HEEL! HEEL! HEEL!' },
   purist: { model: 'purist', name: 'Kennel Club Judge', blurb: 'Will tell you which of your cats is not a real pedigree. All of them.', toughness: 6, power: 6, hype: 90, radius: 0.37, speed: 2.8, shout: 'THAT\'S NOT A BREED!' },
@@ -68,10 +68,10 @@ export const FOES = Object.freeze({
   accelerationist: { model: 'nuguy', name: 'Dog Trainer', blurb: 'Wants to break the cats of every habit. Has a lot of conviction, mostly about you.', toughness: 6, power: 7, hype: 90, radius: 0.43, speed: 3.4, shout: 'NO! BAD KITTY!' },
   podcaster: { model: 'dj', name: 'Radio Phone-In Host', blurb: 'Has interviewed every dog in town. Three hours each. Will interview you.', toughness: 3, power: 3, hype: 50, radius: 0.37, speed: 3.0, shout: 'CALLER, YOU\'RE ON AIR!' },
   vc: { model: 'promoter', name: 'Pet Insurer', blurb: 'Will cover your cats. Will not read the claim. Has a podcast about it.', toughness: 5, power: 4, hype: 60, radius: 0.37, speed: 3.6, shout: 'IT\'S PRE-EXISTING!' },
-  gatekeeper: { model: 'gatekeeper', name: 'Neighbourhood Watch', blurb: 'Has been on this street since 1979. Will explain why your cats are not allowed.', toughness: 7, power: 7, hype: 110, radius: 0.43, speed: 2.4, shout: 'I\'M CALLING THE COUNCIL!' },
+  gatekeeper: { model: 'gatekeeper', name: 'Neighborhood Watch', blurb: 'Has been on this street since 1979. Will explain why your cats are not allowed.', toughness: 7, power: 7, hype: 110, radius: 0.43, speed: 2.4, shout: 'I\'M CALLING THE COUNCIL!' },
   // Whisker Heights, besides.
   yimby: { model: 'hipster', name: 'Dog Day-Care Owner', blurb: 'Wants a dog park on every corner. Has a tote bag about it, and a spreadsheet of where.', toughness: 5, power: 5, hype: 70, radius: 0.37, speed: 3.0, shout: 'A DOG PARK HERE!' },
-  nimby: { model: 'neighbour', name: 'Grumpy Neighbour', blurb: 'Loves animals. In principle. Over the fence, in his bathrobe, at eleven at night.', toughness: 5, power: 5, hype: 70, radius: 0.37, speed: 3.4, shout: 'YOUR CATS ARE ON MY LAWN!' },
+  nimby: { model: 'neighbor', name: 'Grumpy Neighbor', blurb: 'Loves animals. In principle. Over the fence, in his bathrobe, at eleven at night.', toughness: 5, power: 5, hype: 70, radius: 0.37, speed: 3.4, shout: 'YOUR CATS ARE ON MY LAWN!' },
   folksinger: { model: 'folkie', name: 'Busker', blurb: 'Has written a song about a lost dog. Eleven verses. Your cats come in at verse nine.', toughness: 4, power: 4, hype: 50, radius: 0.37, speed: 3.0, shout: 'WHERE HAS MY DOGGY GONE?' },
   dropout: { model: 'skater', name: 'Dognapper in Training', blurb: 'Left school at nineteen to start a dog-walking app. It is a leash. Has a board.', toughness: 4, power: 5, hype: 60, radius: 0.38, speed: 5.0, shout: 'UBER FOR DOGS!' },
   simulationist: { model: 'stoner', name: 'Dazed Stoner', blurb: 'None of this is real. Has checked. Twice. The cats seemed fairly real.', toughness: 4, power: 4, hype: 50, radius: 0.4, speed: 1.4, shout: 'WHOA. CATS.' },
